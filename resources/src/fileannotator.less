@@ -1,0 +1,33 @@
+.file-annotation {
+	display: none;
+}
+
+.annotation-wrapper {
+	position: absolute;
+
+	.annotation-box {
+		display: none;
+		position: absolute;
+		border: 1px solid yellow;
+
+		.file-annotation {
+			border: 1px solid grey;
+			background-color: white;
+			position: absolute;
+			padding: 2px;
+			z-index: 1;
+		}
+	}
+
+	&:hover {
+		.annotation-box {
+			display: block;
+
+			&:hover {
+				.file-annotation {
+					display: block;
+				}
+			}
+		}
+	}
+}

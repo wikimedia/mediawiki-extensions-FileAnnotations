@@ -1,0 +1,55 @@
+{
+	"name": "FileAnnotator",
+	"version": "0.0.1",
+	"author": [
+		"Mark Holmquist"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:FileAnnotator",
+	"descriptionmsg": "fileannotator-desc",
+	"license-name": "GPL-3.0",
+	"type": "other",
+	"callback": "FileAnnotatorHooks::onRegistration",
+	"APIModules": {
+		"fileannotator": {
+			"class": "ApiFileAnnotator"
+		}
+	},
+	"MessagesDirs": {
+		"FileAnnotator": [
+			"i18n"
+		]
+	},
+	"Hooks": {
+		"BeforePageDisplay": "FileAnnotatorHooks::getModulesForFilePage",
+		"ParserFirstCallInit": "FileAnnotatorHooks::onParserSetup"
+	},
+	"ResourceModules": {
+		"fileannotator": {
+			"scripts": [
+				"resources/src/fileannotator.js"
+			],
+
+			"styles": [
+				"resources/src/fileannotator.less"
+			],
+
+			"dependencies": [
+				"mediawiki.Title"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "FileAnnotator"
+	},
+	"ExtensionFunctions": [
+		"FileAnnotatorHooks::onSetup"
+	],
+	"AutoloadClasses": {
+		"FileAnnotatorHooks": "FileAnnotator.hooks.php"
+	},
+	"ConfigRegistry": {
+		"fileannotator": "GlobalVarConfig::newInstance"
+	},
+	"manifest_version": 1
+}
