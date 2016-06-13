@@ -1,6 +1,6 @@
 <?php
 /**
- * Hooks for FileAnnotator extension
+ * Hooks for FileAnnotations extension
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  * @ingroup Extensions
  */
 
-class FileAnnotatorHooks {
+class FileAnnotationsHooks {
 	public static function onRegistration() {
 		return true;
 	}
@@ -32,13 +32,13 @@ class FileAnnotatorHooks {
 
 	public static function getModulesForFilePage( &$out, &$skin ) {
 		if ( $out->getTitle()->inNamespace( NS_FILE ) ) {
-			$out->addModules( array( 'fileannotator' ) );
+			$out->addModules( array( 'fileannotations' ) );
 		}
 	}
 
 	public static function onParserSetup( Parser $parser ) {
-		$parser->setHook( 'annotation', 'FileAnnotatorHooks::renderAnnotation' );
-		$parser->setHook( 'annotatedfile', 'FileAnnotatorHooks::renderAnnotatedFile' );
+		$parser->setHook( 'annotation', 'FileAnnotationsHooks::renderAnnotation' );
+		$parser->setHook( 'annotatedfile', 'FileAnnotationsHooks::renderAnnotatedFile' );
 		return true;
 	}
 

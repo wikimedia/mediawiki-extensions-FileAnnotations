@@ -1,31 +1,31 @@
 {
-	"name": "FileAnnotator",
+	"name": "FileAnnotations",
 	"version": "0.0.1",
 	"author": [
 		"Mark Holmquist"
 	],
-	"url": "https://www.mediawiki.org/wiki/Extension:FileAnnotator",
-	"descriptionmsg": "fileannotator-desc",
+	"url": "https://www.mediawiki.org/wiki/Extension:FileAnnotations",
+	"descriptionmsg": "fileannotations-desc",
 	"license-name": "GPL-3.0",
 	"type": "other",
-	"callback": "FileAnnotatorHooks::onRegistration",
+	"callback": "FileAnnotationsHooks::onRegistration",
 	"MessagesDirs": {
-		"FileAnnotator": [
+		"FileAnnotations": [
 			"i18n"
 		]
 	},
 	"Hooks": {
-		"BeforePageDisplay": "FileAnnotatorHooks::getModulesForFilePage",
-		"ParserFirstCallInit": "FileAnnotatorHooks::onParserSetup"
+		"BeforePageDisplay": "FileAnnotationsHooks::getModulesForFilePage",
+		"ParserFirstCallInit": "FileAnnotationsHooks::onParserSetup"
 	},
 	"ResourceModules": {
-		"fileannotator": {
+		"fileannotations": {
 			"scripts": [
-				"resources/src/fileannotator.js"
+				"resources/src/fileannotations.js"
 			],
 
 			"styles": [
-				"resources/src/fileannotator.less"
+				"resources/src/fileannotations.less"
 			],
 
 			"dependencies": [
@@ -35,16 +35,16 @@
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteExtPath": "FileAnnotator"
+		"remoteExtPath": "FileAnnotations"
 	},
 	"ExtensionFunctions": [
-		"FileAnnotatorHooks::onSetup"
+		"FileAnnotationsHooks::onSetup"
 	],
 	"AutoloadClasses": {
-		"FileAnnotatorHooks": "FileAnnotator.hooks.php"
+		"FileAnnotationsHooks": "FileAnnotations.hooks.php"
 	},
 	"ConfigRegistry": {
-		"fileannotator": "GlobalVarConfig::newInstance"
+		"fileannotations": "GlobalVarConfig::newInstance"
 	},
 	"manifest_version": 1
 }
