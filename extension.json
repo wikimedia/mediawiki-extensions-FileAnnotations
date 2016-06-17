@@ -9,14 +9,34 @@
 	"license-name": "GPL-3.0",
 	"type": "other",
 	"callback": "FileAnnotationsHooks::onRegistration",
+	"namespaces": [
+		{
+			"name": "File_Annotations",
+			"id": 492,
+			"constant": "NS_FILE_ANNOTATIONS",
+			"defaultcontentmodel": "FileAnnotations"
+		},
+		{
+			"name": "File_Annotations_Talk",
+			"id": 493,
+			"constant": "NS_FILE_ANNOTATIONS_TALK"
+		}
+	],
+	"ContentHandlers": {
+		"FileAnnotations": "FileAnnotationsContentHandler"
+	},
+	"APIPropModules": {
+		"fileannotations": {
+			"class": "ApiFileAnnotations"
+		}
+	},
 	"MessagesDirs": {
 		"FileAnnotations": [
 			"i18n"
 		]
 	},
 	"Hooks": {
-		"BeforePageDisplay": "FileAnnotationsHooks::getModulesForFilePage",
-		"ParserFirstCallInit": "FileAnnotationsHooks::onParserSetup"
+		"BeforePageDisplay": "FileAnnotationsHooks::getModulesForFilePage"
 	},
 	"ResourceModules": {
 		"fileannotations": {
@@ -29,7 +49,19 @@
 			],
 
 			"dependencies": [
-				"mediawiki.Title"
+				"mediawiki.Title",
+				"jquery.ui.draggable",
+				"jquery.ui.resizable",
+				"oojs-ui"
+			],
+
+			"messages": [
+				"fileannotation-create",
+				"file-has-annotations",
+				"save-fileannotation",
+				"cancel-fileannotation",
+				"edit-fileannotation",
+				"delete-fileannotation"
 			]
 		}
 	},
@@ -41,7 +73,10 @@
 		"FileAnnotationsHooks::onSetup"
 	],
 	"AutoloadClasses": {
-		"FileAnnotationsHooks": "FileAnnotations.hooks.php"
+		"ApiFileAnnotations": "ApiFileAnnotations.php",
+		"FileAnnotationsHooks": "FileAnnotations.hooks.php",
+		"FileAnnotationsContent": "includes/FileAnnotationsContent.php",
+		"FileAnnotationsContentHandler": "includes/FileAnnotationsContentHandler.php"
 	},
 	"ConfigRegistry": {
 		"fileannotations": "GlobalVarConfig::newInstance"

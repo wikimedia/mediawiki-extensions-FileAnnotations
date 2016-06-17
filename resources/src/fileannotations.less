@@ -1,7 +1,3 @@
-.file-annotation {
-	display: none;
-}
-
 .annotation-wrapper {
 	position: absolute;
 
@@ -10,12 +6,29 @@
 		position: absolute;
 		border: 1px solid yellow;
 
-		.file-annotation {
+		.annotation-container {
+			display: none;
 			border: 1px solid grey;
 			background-color: white;
 			position: absolute;
 			padding: 2px;
 			z-index: 1;
+		}
+
+		&.editing-annotation {
+			border: 1px dotted green;
+			.annotation-container {
+				display: block;
+				.annotation-edit-buttons {
+					display: none;
+				}
+			}
+		}
+	}
+
+	&.editing-annotations {
+		.annotation-box {
+			display: block;
 		}
 	}
 
@@ -24,10 +37,28 @@
 			display: block;
 
 			&:hover {
-				.file-annotation {
+				.annotation-container {
 					display: block;
 				}
 			}
 		}
+	}
+
+	.new-annotation {
+		border: 1px dotted green;
+
+		.annotation-editor {
+			text-align: right;
+			background-color: white;
+			position: absolute;
+			padding: 2px;
+			z-index: 1;
+			width: auto;
+			height: auto;
+		}
+	}
+
+	&.click-to-create {
+		cursor: crosshair;
 	}
 }
