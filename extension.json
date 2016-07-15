@@ -36,7 +36,8 @@
 		]
 	},
 	"Hooks": {
-		"BeforePageDisplay": "FileAnnotationsHooks::getModulesForFilePage"
+		"BeforePageDisplay": "FileAnnotationsHooks::getModulesForFilePage",
+		"SkinTemplateNavigation": "FileAnnotationsHooks::addFileAnnotationsTab"
 	},
 	"ResourceModules": {
 		"fileannotations": {

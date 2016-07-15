@@ -4,6 +4,7 @@
 	},
 	"fileannotations-desc": "Displays and edits annotations on file pages.",
 	"file-has-annotations": "There are annotations on this file. Mouse over the image to view them.",
+	"fileannotations-tab": "Annotations",
 	"fileannotation-create": "Add file annotation",
 	"save-fileannotation": "Save",
 	"cancel-fileannotation": "Cancel",

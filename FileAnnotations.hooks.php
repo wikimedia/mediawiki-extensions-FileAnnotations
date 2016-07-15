@@ -35,4 +35,26 @@ class FileAnnotationsHooks {
 			$out->addModules( [ 'fileannotations' ] );
 		}
 	}
+
+	public static function addFileAnnotationsTab( SkinTemplate &$sktemplate, array &$links ) {
+		$title = $sktemplate->getTitle();
+		if ( $title->inNamespace( NS_FILE ) ) {
+			$fatitle = Title::makeTitle(
+				NS_FILE_ANNOTATIONS,
+				$title->getDBkey()
+			);
+
+			$tabMessage = new Message(
+				'fileannotations-tab'
+			);
+
+			$links['namespaces']['annotations'] = [
+				'class' => '',
+				'text' => $tabMessage->text(),
+				'href' => $sktemplate->makeArticleUrlDetails(
+					$fatitle->getFullText()
+				)['href'],
+			];
+		}
+	}
 }
