@@ -61,12 +61,19 @@ class FileAnnotationsContent extends JsonContent {
 		parent::fillParserOutput( $title, $revId, $options, $generateHtml, $output );
 
 		if ( $generateHtml && $this->isValid() ) {
+			$fileTitle = Title::makeTitle(
+				NS_FILE,
+				$title->getDBkey()
+			);
+
+			$fileMsg = new Message(
+				'fileannotations-go-to-filepage',
+				[ $fileTitle->getPrefixedDBkey() ]
+			);
+
 			$output->setText(
-				// TODO message-ify
 				'<p>' .
-					'It is recommended that you view and edit these annotations on ' .
-					'<a href="">the file page</a>' .
-					', where they are available in a visual format.' .
+					$fileMsg->parse() .
 				'</p>' .
 				$output->getText()
 			);

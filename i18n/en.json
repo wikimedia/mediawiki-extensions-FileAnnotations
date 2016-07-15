@@ -10,6 +10,8 @@
 	"edit-fileannotation": "Edit",
 	"delete-fileannotation": "Delete",
 
+	"fileannotations-go-to-filepage": "It is recommended that you view and edit file annotations on [[:$1|the file page]], where they are available in a visual format.",
+
 	"apihelp-query+fileannotations-description": "Fetch wikitext and optionally HTML for annotations on a file on the wiki.",
 	"apihelp-query+fileannotations-param-parse": "Whether to fetch the parsed annotations. Could take longer with many, large, or complex annotations."
 }
