@@ -32,7 +32,7 @@ class FileAnnotationsHooks {
 
 	public static function getModulesForFilePage( &$out, &$skin ) {
 		if ( $out->getTitle()->inNamespace( NS_FILE ) ) {
-			$out->addModules( array( 'fileannotations' ) );
+			$out->addModules( [ 'fileannotations' ] );
 		}
 	}
 
