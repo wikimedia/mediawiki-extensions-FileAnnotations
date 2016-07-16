@@ -52,7 +52,7 @@
 				y = $annotation.attr( 'data-y' );
 
 			imageInfoPromise.done( function ( data ) {
-				var ii = data.query.pages[data.query.pageids[0]].imageinfo[0],
+				var ii = data.query.pages[ data.query.pageids[ 0 ] ].imageinfo[ 0 ],
 					fw = ii.width,
 					fh = ii.height,
 					adjustRatioX = imgw / fw,
