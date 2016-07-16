@@ -9,11 +9,6 @@
 	"license-name": "GPL-3.0",
 	"type": "other",
 	"callback": "FileAnnotatorHooks::onRegistration",
-	"APIModules": {
-		"fileannotator": {
-			"class": "ApiFileAnnotator"
-		}
-	},
 	"MessagesDirs": {
 		"FileAnnotator": [
 			"i18n"
