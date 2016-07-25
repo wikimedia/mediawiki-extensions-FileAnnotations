@@ -9,26 +9,33 @@
 	 *
 	 * @class mw.FileAnnotator
 	 * @constructor
-	 * @param {jQuery} $fileLink Look for '#file' on the file page.
-	 * @param {mw.Title} fileTitle Title of the file.
+	 * @param {Object} config
+	 * @cfg {jQuery} $container The link that encloses the image.
+	 * @cfg {mw.Title} title Title of the file.
+	 * @cfg {boolean} [editing] Whether to enable editing annotations.
+	 * @cfg {boolean} [alert] Whether to alert the user that there are annotations.
 	 */
-	function FileAnnotator( $fileLink, fileTitle ) {
+	function FileAnnotator( config ) {
 		var offset, $annotationInfo, createButton,
 			annotator = this;
 
 		this.api = new mw.Api();
 
-		this.$fileLink = $fileLink;
-		this.fileTitle = fileTitle;
-		this.$img = $fileLink.find( 'img' );
+		this.$fileLink = config.$container;
+		this.fileTitle = config.title;
+		this.$img = this.$fileLink.find( 'img' );
+		this.editing = !!config.editing;
+		this.alert = !!config.alert;
 
-		$annotationInfo = $( '<div>' )
-			.addClass( 'fileannotation-info' )
-			.append(
-				$( '<p>' ).text( mw.message( 'file-has-annotations' ).text() )
-			);
+		if ( this.alert ) {
+			$annotationInfo = $( '<div>' )
+				.addClass( 'fileannotation-info' )
+				.append(
+					$( '<p>' ).text( mw.message( 'file-has-annotations' ).text() )
+				);
 
-		$fileLink.after( $annotationInfo );
+			this.$fileLink.after( $annotationInfo );
+		}
 
 		this.$container = $( '<div>' )
 			.addClass( 'annotation-wrapper' );
@@ -44,81 +51,83 @@
 
 		$( 'body' ).append( this.$container );
 
-		this.annotationsTitle = mw.Title.newFromText( 'File_Annotations:' + fileTitle.getMain() );
+		this.annotationsTitle = mw.Title.newFromText( 'File_Annotations:' + this.fileTitle.getMain() );
 
 		this.getAndRenderAnnotations();
 
-		this.getAnnotationsHTML().then( function ( data ) {
-			var pageId = data.query.pageids[ 0 ],
-				page = data.query.pages[ pageId ],
-				imageInfo = page.imageinfo[ 0 ],
-				fullw = imageInfo.width,
-				fullh = imageInfo.height,
-				imgw = annotator.$img.width(),
-				imgh = annotator.$img.height(),
-				adjustRatioX = imgw / fullw,
-				adjustRatioY = imgh / fullh;
+		if ( this.editing ) {
+			this.getAnnotationsHTML().then( function ( data ) {
+				var pageId = data.query.pageids[ 0 ],
+					page = data.query.pages[ pageId ],
+					imageInfo = page.imageinfo[ 0 ],
+					fullw = imageInfo.width,
+					fullh = imageInfo.height,
+					imgw = annotator.$img.width(),
+					imgh = annotator.$img.height(),
+					adjustRatioX = imgw / fullw,
+					adjustRatioY = imgh / fullh;
 
-			// Make it possible to create new annotations graphically.
-			createButton = new OO.ui.ButtonWidget( {
-				label: mw.message( 'fileannotation-create' ).text(),
-				icon: 'add',
-				flags: [ 'constructive' ]
-			} );
+				// Make it possible to create new annotations graphically.
+				createButton = new OO.ui.ButtonWidget( {
+					label: mw.message( 'fileannotation-create' ).text(),
+					icon: 'add',
+					flags: [ 'constructive' ]
+				} );
 
-			createButton.on( 'click', function () {
-				if ( annotator.$container.hasClass( 'click-to-create' ) ) {
-					// Don't turn it on twice!
-					return;
-				}
+				createButton.on( 'click', function () {
+					if ( annotator.$container.hasClass( 'click-to-create' ) ) {
+						// Don't turn it on twice!
+						return;
+					}
 
-				// Turn on click-to-initiate...
-				annotator.$container
-					.addClass( 'click-to-create' );
+					// Turn on click-to-initiate...
+					annotator.$container
+						.addClass( 'click-to-create' );
 
-				annotator.$container
-					.one( 'click', function ( e ) {
-						// Add outline and edit interface
-						var x = e.offsetX,
-							y = e.offsetY,
-							// We want the annotation to default to at least 40 pixels,
-							// or 1/20th of the size of the image, unless the image is less than 40
-							// pixels in which case we'll just select the whole thing.
-							defaultHeight = Math.min( Math.max( 40, fullh / 20 ), fullh ),
-							defaultWidth = Math.min( Math.max( 40, fullw / 20 ), fullw ),
-							adjustedDefaultDim = Math.min(
-								defaultHeight * adjustRatioY,
-								defaultWidth * adjustRatioX
-							);
+					annotator.$container
+						.one( 'click', function ( e ) {
+							// Add outline and edit interface
+							var x = e.offsetX,
+								y = e.offsetY,
+								// We want the annotation to default to at least 40 pixels,
+								// or 1/20th of the size of the image, unless the image is less than 40
+								// pixels in which case we'll just select the whole thing.
+								defaultHeight = Math.min( Math.max( 40, fullh / 20 ), fullh ),
+								defaultWidth = Math.min( Math.max( 40, fullw / 20 ), fullw ),
+								adjustedDefaultDim = Math.min(
+									defaultHeight * adjustRatioY,
+									defaultWidth * adjustRatioX
+								);
 
-						annotator.$container.removeClass( 'click-to-create' );
+							annotator.$container.removeClass( 'click-to-create' );
 
-						annotator.createAnnotationEditor( x, y, adjustedDefaultDim, adjustedDefaultDim )
-							.then( function ( newX, newY, newWidth, newHeight, newText ) {
-								annotator.getAnnotationsJSON().then( function ( annotations ) {
-									annotations.annotations.push( {
-										content: newText,
-										x: newX / adjustRatioX,
-										y: newY / adjustRatioY,
-										width: newWidth / adjustRatioX,
-										height: newHeight / adjustRatioY
+							annotator.createAnnotationEditor( x, y, adjustedDefaultDim, adjustedDefaultDim )
+								.then( function ( newX, newY, newWidth, newHeight, newText ) {
+									annotator.getAnnotationsJSON().then( function ( annotations ) {
+										annotations.annotations.push( {
+											content: newText,
+											x: newX / adjustRatioX,
+											y: newY / adjustRatioY,
+											width: newWidth / adjustRatioX,
+											height: newHeight / adjustRatioY
+										} );
+
+										return annotator.saveAnnotations(
+											annotations,
+											'Added a file annotation from the file page, text: "' + newText + '"'
+										);
+									} ).then( function () {
+										// Close interface, make the annotation official.
+										annotator.annotationsCache = undefined;
+										annotator.getAndRenderAnnotations();
 									} );
-
-									return annotator.saveAnnotations(
-										annotations,
-										'Added a file annotation from the file page, text: "' + newText + '"'
-									);
-								} ).then( function () {
-									// Close interface, make the annotation official.
-									annotator.annotationsCache = undefined;
-									annotator.getAndRenderAnnotations();
 								} );
-							} );
-					} );
-			} );
+						} );
+				} );
 
-			$annotationInfo.append( createButton.$element );
-		} );
+				$annotationInfo.append( createButton.$element );
+			} );
+		}
 	}
 
 	/**
@@ -346,7 +355,8 @@
 	 * @return {jQuery} The annotation box to be added to the container.
 	 */
 	FileAnnotator.prototype.renderAnnotation = function ( i, annotation, imageInfo, adjustRatioX, adjustRatioY ) {
-		var annotator = this,
+		var editButton, deleteButton, modifyButtons, buttonsField,
+			annotator = this,
 			$annotation = $( '<div>' )
 				.addClass( 'file-annotation' )
 				.append( annotation.parsed ),
@@ -354,25 +364,6 @@
 			adjustedY = annotation.y * adjustRatioY,
 			adjustedWidth = annotation.width * adjustRatioX,
 			adjustedHeight = annotation.height * adjustRatioY,
-
-			editButton = new OO.ui.ButtonWidget( {
-				label: mw.message( 'edit-fileannotation' ).text(),
-				flags: [ 'progressive' ]
-			} ),
-
-			deleteButton = new OO.ui.ButtonWidget( {
-				label: mw.message( 'delete-fileannotation' ).text(),
-				flags: [ 'destructive' ]
-			} ),
-
-			modifyButtons = new OO.ui.ButtonGroupWidget( {
-				items: [ editButton, deleteButton ]
-			} ),
-
-			buttonsField = new OO.ui.FieldLayout( modifyButtons, {
-				classes: [ 'annotation-edit-buttons' ],
-				align: 'right'
-			} ),
 
 			$annotationBox = $( '<div>' )
 				.addClass( 'annotation-box' )
@@ -385,30 +376,70 @@
 			$annotationContain = $( '<div>' )
 				.addClass( 'annotation-container' );
 
-		editButton.on( 'click', function () {
-			var currentX = $annotationBox.css( 'left' ),
-				currentY = $annotationBox.css( 'top' ),
-				currentWidth = $annotationBox.css( 'width' ),
-				currentHeight = $annotationBox.css( 'height' );
+		$annotationContain.append(
+			$annotation
+		);
 
-			annotator.createAnnotationEditor(
-				currentX,
-				currentY,
-				currentWidth,
-				currentHeight,
-				annotation.text,
-				$annotationBox
-			).then( function ( newX, newY, newWidth, newHeight, newText ) {
+		if ( this.editing ) {
+			editButton = new OO.ui.ButtonWidget( {
+				label: mw.message( 'edit-fileannotation' ).text(),
+				flags: [ 'progressive' ]
+			} );
+
+			deleteButton = new OO.ui.ButtonWidget( {
+				label: mw.message( 'delete-fileannotation' ).text(),
+				flags: [ 'destructive' ]
+			} );
+
+			modifyButtons = new OO.ui.ButtonGroupWidget( {
+				items: [ editButton, deleteButton ]
+			} );
+
+			buttonsField = new OO.ui.FieldLayout( modifyButtons, {
+				classes: [ 'annotation-edit-buttons' ],
+				align: 'right'
+			} );
+
+			editButton.on( 'click', function () {
+				var currentX = $annotationBox.css( 'left' ),
+					currentY = $annotationBox.css( 'top' ),
+					currentWidth = $annotationBox.css( 'width' ),
+					currentHeight = $annotationBox.css( 'height' );
+
+				annotator.createAnnotationEditor(
+					currentX,
+					currentY,
+					currentWidth,
+					currentHeight,
+					annotation.text,
+					$annotationBox
+				).then( function ( newX, newY, newWidth, newHeight, newText ) {
+					annotator.getAnnotationsJSON().then( function ( annotations ) {
+						annotations.annotations[ i ].content = newText;
+						annotations.annotations[ i ].x = newX / adjustRatioX;
+						annotations.annotations[ i ].y = newY / adjustRatioY;
+						annotations.annotations[ i ].width = newWidth / adjustRatioX;
+						annotations.annotations[ i ].height = newHeight / adjustRatioY;
+
+						annotator.saveAnnotations(
+							annotations,
+							'Edited annotation on file page. New text: "' + newText + '"'
+						).then( function () {
+							// Close edit interface, make the annotation official.
+							annotator.annotationsCache = undefined;
+							annotator.getAndRenderAnnotations();
+						} );
+					} );
+				} );
+			} );
+
+			deleteButton.on( 'click', function () {
+				// Delete the annotation and refresh.
 				annotator.getAnnotationsJSON().then( function ( annotations ) {
-					annotations.annotations[ i ].content = newText;
-					annotations.annotations[ i ].x = newX / adjustRatioX;
-					annotations.annotations[ i ].y = newY / adjustRatioY;
-					annotations.annotations[ i ].width = newWidth / adjustRatioX;
-					annotations.annotations[ i ].height = newHeight / adjustRatioY;
-
+					annotations.annotations.splice( i, 1 );
 					annotator.saveAnnotations(
 						annotations,
-						'Edited annotation on file page. New text: "' + newText + '"'
+						'Deleted annotation on file page.'
 					).then( function () {
 						// Close edit interface, make the annotation official.
 						annotator.annotationsCache = undefined;
@@ -416,27 +447,11 @@
 					} );
 				} );
 			} );
-		} );
 
-		deleteButton.on( 'click', function () {
-			// Delete the annotation and refresh.
-			annotator.getAnnotationsJSON().then( function ( annotations ) {
-				annotations.annotations.splice( i, 1 );
-				annotator.saveAnnotations(
-					annotations,
-					'Deleted annotation on file page.'
-				).then( function () {
-					// Close edit interface, make the annotation official.
-					annotator.annotationsCache = undefined;
-					annotator.getAndRenderAnnotations();
-				} );
-			} );
-		} );
-
-		$annotationContain.append(
-			$annotation,
-			buttonsField.$element
-		);
+			$annotationContain.append(
+				buttonsField.$element
+			);
+		}
 
 		$annotationBox.append( $annotationContain );
 		$annotationContain.css( {
@@ -479,7 +494,32 @@
 	};
 
 	if ( isFilePage ) {
-		pageAnnotator = new FileAnnotator( $fileLink, pageTitle );
+		// This is a file page, so just dump the main image into the
+		// annotator class, with editing and a notification below the image.
+		pageAnnotator = new FileAnnotator( {
+			$container: $fileLink,
+			title: pageTitle,
+			editing: true,
+			alert: true
+		} );
+	} else {
+		// Not a file page, so look for explicitly enabled images
+		$( '.enable-file-annotations' ).each( function () {
+			var $div = $( this );
+
+			$div.find( 'a.image' ).each( function () {
+				var thumbAnnotator,
+					$link = $( this ),
+					$img = $link.find( 'img' );
+
+				thumbAnnotator = new FileAnnotator( {
+					$container: $link,
+					title: mw.Title.newFromImg( $img ),
+					editing: false,
+					alert: false
+				} );
+			} );
+		} );
 	}
 
 	mw.FileAnnotator = FileAnnotator;

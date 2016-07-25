@@ -31,9 +31,8 @@ class FileAnnotationsHooks {
 	}
 
 	public static function getModulesForFilePage( &$out, &$skin ) {
-		if ( $out->getTitle()->inNamespace( NS_FILE ) ) {
-			$out->addModules( [ 'fileannotations' ] );
-		}
+		// Dump it on every page.
+		$out->addModules( [ 'fileannotations' ] );
 	}
 
 	public static function addFileAnnotationsTab( SkinTemplate &$sktemplate, array &$links ) {
