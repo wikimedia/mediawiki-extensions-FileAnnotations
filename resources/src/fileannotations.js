@@ -2,7 +2,7 @@
 	var pageAnnotator,
 		pageTitle = mw.Title.newFromText( mw.config.get( 'wgPageName' ) ),
 		isFilePage = pageTitle.getNamespaceId() === 6,
-		$fileLink = $( '#file' );
+		$fileLink = $( '#file a' );
 
 	/**
 	 * Class for rendering, editing, creating and deleting annotations on a file.
@@ -484,6 +484,12 @@
 
 				// Clear any existing annotations so we start fresh.
 				annotator.$container.empty();
+
+				annotator.$container.append(
+					$( '<a>' )
+						.addClass( 'file-link-backup' )
+						.attr( 'href', annotator.$fileLink.attr( 'href' ) )
+				);
 
 				for ( i = 0; i < annotations.length; i++ ) {
 					annotator.$container.append(
