@@ -75,7 +75,7 @@ class FileAnnotationsContent extends JsonContent {
 				'<p>' .
 					$fileMsg->parse() .
 				'</p>' .
-				$output->getText()
+				$output->getRawText()
 			);
 		}
 	}
