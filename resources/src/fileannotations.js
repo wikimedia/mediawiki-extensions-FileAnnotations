@@ -1,4 +1,4 @@
-( function ( $, mw ) {
+( function ( $, mw, OO ) {
 	var pageAnnotator,
 		pageTitle = mw.Title.newFromText( mw.config.get( 'wgPageName' ) ),
 		isFilePage = pageTitle.getNamespaceId() === 6,
@@ -13,7 +13,6 @@
 	 * @cfg {jQuery} $container The link that encloses the image.
 	 * @cfg {mw.Title} title Title of the file.
 	 * @cfg {boolean} [editing] Whether to enable editing annotations.
-	 * @cfg {boolean} [alert] Whether to alert the user that there are annotations.
 	 */
 	function FileAnnotator( config ) {
 		var offset, $annotationInfo, createButton,
@@ -25,17 +24,11 @@
 		this.fileTitle = config.title;
 		this.$img = this.$fileLink.find( 'img' );
 		this.editing = !!config.editing;
-		this.alert = !!config.alert;
 
-		if ( this.alert ) {
-			$annotationInfo = $( '<div>' )
-				.addClass( 'fileannotation-info' )
-				.append(
-					$( '<p>' ).text( mw.message( 'file-has-annotations' ).text() )
-				);
+		$annotationInfo = $( '<div>' )
+			.addClass( 'fileannotation-info' );
 
-			this.$fileLink.after( $annotationInfo );
-		}
+		this.$fileLink.after( $annotationInfo );
 
 		this.$container = $( '<div>' )
 			.addClass( 'annotation-wrapper' );
@@ -53,7 +46,17 @@
 
 		this.annotationsTitle = mw.Title.newFromText( 'File_Annotations:' + this.fileTitle.getMain() );
 
-		this.getAndRenderAnnotations();
+		this.getAndRenderAnnotations().then( function () {
+			var $body = $( 'body' );
+
+			if ( $body.hasClass( 'mw-mobile-mode' ) ) {
+				annotator.whenInView( function () {
+					annotator.flashAnnotations();
+				} );
+			} else {
+				annotator.displayAnnotationsUntilHover();
+			}
+		} );
 
 		if ( this.editing ) {
 			this.getAnnotationsHTML().then( function ( data ) {
@@ -464,11 +467,13 @@
 
 	/**
 	 * Get the annotations, and render them on the image.
+	 *
+	 * @return {jQuery.Promise}
 	 */
 	FileAnnotator.prototype.getAndRenderAnnotations = function () {
 		var annotator = this;
 
-		this.getAnnotationsHTML( this.fileTitle )
+		return this.getAnnotationsHTML( this.fileTitle )
 			.then( function ( data ) {
 				var i,
 					pageId = data.query.pageids[ 0 ],
@@ -490,7 +495,31 @@
 						annotator.renderAnnotation( i, annotations[ i ], imageInfo, adjustRatioX, adjustRatioY )
 					);
 				}
+
+				return $.Deferred().resolve();
 			} );
+	};
+
+	FileAnnotator.prototype.displayAnnotationsUntilHover = function () {
+		var $container = this.$container;
+
+		$container.addClass( 'force-show-annotations' );
+
+		$container.one( 'mouseenter', function () {
+			// Once the user hovers over the image once, let the annotations disappear
+			$container.removeClass( 'force-show-annotations' );
+		} );
+	};
+
+	FileAnnotator.prototype.flashAnnotations = function () {
+		var $container = this.$container;
+
+		$container.addClass( 'force-show-annotations' );
+
+		setTimeout( function () {
+			// Let the annotations disappear after five seconds.
+			$container.removeClass( 'force-show-annotations' );
+		}, 5000 );
 	};
 
 	if ( isFilePage ) {
@@ -499,8 +528,7 @@
 		pageAnnotator = new FileAnnotator( {
 			$container: $fileLink,
 			title: pageTitle,
-			editing: true,
-			alert: true
+			editing: true
 		} );
 	} else {
 		// Not a file page, so look for explicitly enabled images
@@ -515,12 +543,38 @@
 				thumbAnnotator = new FileAnnotator( {
 					$container: $link,
 					title: mw.Title.newFromImg( $img ),
-					editing: false,
-					alert: false
+					editing: false
 				} );
 			} );
 		} );
 	}
 
+	FileAnnotator.prototype.whenInView = function ( cb ) {
+		var fired = false,
+			annotator = this;
+
+		if ( this.isInView() ) {
+			cb();
+			fired = true;
+		} else {
+			$( 'body' ).scroll( OO.ui.debounce( function () {
+				if ( annotator.isInView() && !fired ) {
+					cb();
+					fired = true;
+				}
+			}, 200 ) );
+		}
+	};
+
+	FileAnnotator.prototype.isInView = function () {
+		var $win = $( window ),
+			windowTop = $win.scrollTop(),
+			windowBottom = windowTop + $win.height(),
+			containerTop = this.$container.offset().top,
+			containerBottom = containerTop + this.$container.height();
+
+		return ( ( containerBottom <= windowBottom ) && ( containerTop >= windowTop ) );
+	};
+
 	mw.FileAnnotator = FileAnnotator;
-}( jQuery, mediaWiki ) );
+}( jQuery, mediaWiki, OO ) );
