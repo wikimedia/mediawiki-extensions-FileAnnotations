@@ -79,6 +79,64 @@ class ApiFileAnnotations extends ApiQueryBase {
 						if ( $shouldParse ) {
 							$presult = $parser->parse( $text, $faTitle, $popts );
 							$annotationData['parsed'] = $presult->mText;
+
+							// Check to see if we can return a special display for this annotation.
+							$dom = new DOMDocument();
+							$domFragment = $dom->createDocumentFragment();
+						   	$domFragment->appendXml( $presult->mText );
+
+							// The first element will always be a paragraph. Get its first child.
+							$possibleLink = $domFragment->firstChild->firstChild;
+
+							// Check if it's a link element.
+							if ( $possibleLink->nodeType === XML_ELEMENT_NODE && $possibleLink->nodeName === 'a' ) {
+								// Find out if the link is something we care about.
+								$href = $possibleLink->attributes->getNamedItem( 'href' )->value;
+
+								$commonsMatches = [];
+								$commonsCategoryMatch = preg_match(
+									'%^https?://commons.wikimedia.org.*(Category:.*)%',
+									$href,
+									$commonsMatches
+								);
+
+								if ( $commonsCategoryMatch === 1 ) {
+									$categoryName = $commonsMatches[1];
+
+									$imagesApiDataStr = file_get_contents(
+										'https://commons.wikimedia.org/w/api.php?' .
+										'action=query&prop=imageinfo&generator=categorymembers' .
+										'&gcmtype=file&gcmtitle=' .
+										urlencode( $categoryName ) .
+										'&gcmlimit=5&iiprop=url&iiurlwidth=100' .
+										'&iiurlheight=100&format=json'
+									);
+
+									$imagesApiData = json_decode( $imagesApiDataStr, true );
+
+									$pages = $imagesApiData['query']['pages'];
+
+									$imagesHtml = '<div class="category-members">';
+
+									foreach ( $pages as $id => $page ) {
+										$info = $page['imageinfo'][0];
+										$imagesHtml .=
+											'<a class="category-member" href="' . $info['descriptionurl'] . '">' .
+												'<img src="' . $info['thumburl'] . '" />' .
+											'</a>';
+									}
+
+									$imagesHtml .= '</div>';
+
+									$annotationData['parsed'] =
+										'<div class="commons-category-annotation">' .
+											$imagesHtml .
+											'<a href="' . $href . '">' .
+												'See more images' .
+											'</a>' .
+										'</div>';
+								}
+							}
 						}
 						$annotationsData[] = $annotationData;
 					}
