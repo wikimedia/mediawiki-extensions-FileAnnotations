@@ -107,6 +107,13 @@ class ApiFileAnnotations extends ApiQueryBase {
 									$wpMatches
 								);
 
+								$wdMatches = [];
+								$wdEntityMatch = preg_match(
+									'%https?://(www\.)?wikidata.org/.*(Q\d+)%',
+									$href,
+									$wdMatches
+								);
+
 								if ( $commonsCategoryMatch === 1 ) {
 									$categoryName = $commonsMatches[1];
 
@@ -178,6 +185,92 @@ class ApiFileAnnotations extends ApiQueryBase {
 												'</p>' .
 											'</div>';
 									}
+								}
+
+								if ( $wdEntityMatch === 1 ) {
+									$entityId = $wdMatches[2];
+									$currentLang = $this->getLanguage()->getCode();
+
+									$entityApiDataStr = file_get_contents(
+										'https://www.wikidata.org/w/api.php' .
+										'?action=wbgetentities' .
+										'&ids=' . $entityId .
+										'&languages=en|' . $currentLang .
+										'&props=labels|descriptions|claims' .
+										'&format=json'
+									);
+
+									$entityApiData = json_decode( $entityApiDataStr, true );
+
+									$entity = $entityApiData['entities'][$entityId];
+
+									$labels = $entity['labels'];
+									$descriptions = $entity['descriptions'];
+									$claims = $entity['claims'];
+
+									$annotationData['parsed'] = '<div class="wikidata-entity-annotation">';
+									if ( isset( $labels[$currentLang] ) ) {
+										$annotationData['parsed'] .=
+											'<h2 class="wikidata-label">' .
+												$labels[$currentLang]['value'] .
+											'</h2>';
+									} elseif ( isset( $labels['en'] ) ) {
+										// Blatantly strange fallback, but we don't want to have
+										// no label...hopefully this works for 99% of things.
+										$annotationData['parsed'] .=
+											'<h2 class="wikidata-label">' .
+												$labels['en']['value'] .
+											'</h2>';
+									}
+
+									if ( isset( $descriptions[$currentLang] ) ) {
+										$annotationData['parsed'] .=
+											'<p class="wikidata-description">' .
+												$descriptions[$currentLang]['value'] .
+											'</p>';
+									} elseif ( isset( $descriptions['en'] ) ) {
+										$annotationData['parsed'] .=
+											'<p class="wikidata-description">' .
+												$descriptions['en']['value'] .
+											'</p>';
+									}
+
+									foreach ( $claims as $claimid => $claim ) {
+										switch ( $claimid ) {
+											case 'P18':
+												// Main image. Fetch imageinfo and render.
+												$imageApiDataStr = file_get_contents(
+													'https://commons.wikimedia.org/w/api.php' .
+													'?action=query&prop=imageinfo' .
+													'&titles=File:' . urlencode( $claim[0]['mainsnak']['datavalue']['value'] ) .
+													'&iiprop=url&iiurlwidth=100' .
+													'&iiurlheight=100&format=json'
+												);
+
+												$imageApiData = json_decode( $imageApiDataStr, true );
+
+												$pages = $imageApiData['query']['pages'];
+
+												$annotationData['parsed'] .= '<div class="wikidata-image">';
+
+												foreach ( $pages as $id => $page ) {
+													// There's only one page. Add HTML here.
+													$info = $page['imageinfo'][0];
+													$annotationData['parsed'] .=
+														'<a class="commons-image" href="' . $info['descriptionurl'] . '">' .
+															'<img src="' . $info['thumburl'] . '" />' .
+														'</a>';
+													break;
+												}
+
+												$annotationData['parsed'] .= '</div>';
+
+											default:
+												continue;
+										}
+									}
+
+									$annotationData['parsed'] .= '</div>';
 								}
 							}
 						}
