@@ -16,12 +16,13 @@
 
 			.file-annotation {
 				.commons-category-annotation {
+					padding: 5px;
 					text-align: center;
 
 					.category-members {
-						width: 600px;
+						width: 550px;
 						.category-member {
-							padding: 10px;
+							margin: 5px;
 							width: 100px;
 							height: 100px;
 							text-align: center;
@@ -35,11 +36,33 @@
 				}
 
 				.wikipedia-article-annotation {
-					width: 600px;
+					width: 510px;
+					padding: 5px;
 
 					& > p {
 						width: 250px;
 						display: inline-block;
+					}
+
+					.pageimage {
+						text-align: center;
+
+						img {
+							vertical-align: baseline;
+						}
+					}
+				}
+
+				.wikidata-entity-annotation {
+					width: 200px;
+
+					.text-content {
+						padding: 5px;
+					}
+
+					.wikidata-image {
+						width: 200px;
+						text-align: center;
 					}
 				}
 			}
