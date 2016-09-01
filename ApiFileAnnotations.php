@@ -100,6 +100,13 @@ class ApiFileAnnotations extends ApiQueryBase {
 									$commonsMatches
 								);
 
+								$wpMatches = [];
+								$wpArticleMatch = preg_match(
+									'%^(https?://.*.wikipedia.org)/wiki/(.*)%',
+									$href,
+									$wpMatches
+								);
+
 								if ( $commonsCategoryMatch === 1 ) {
 									$categoryName = $commonsMatches[1];
 
@@ -135,6 +142,42 @@ class ApiFileAnnotations extends ApiQueryBase {
 												'See more images' .
 											'</a>' .
 										'</div>';
+								}
+
+								if ( $wpArticleMatch === 1 ) {
+									$articleName = $wpMatches[2];
+
+									$articleApiDataStr = file_get_contents(
+										$wpMatches[1] .
+										'/w/api.php?action=query' .
+										'&titles=' . urlencode( $articleName ) .
+										'&prop=pageimages|extracts' .
+										'&piprop=thumbnail|name' .
+										'&pithumbsize=250' .
+										'&exsentences=4' .
+										'&format=json'
+									);
+
+									$articleApiData = json_decode( $articleApiDataStr, true );
+
+									$pages = $articleApiData['query']['pages'];
+
+									foreach ( $pages as $id => $page ) {
+										// There's only one page, so just do it here
+										$annotationData['parsed'] =
+											'<div class="wikipedia-article-annotation">' .
+												$page['extract'] .
+												'<p>' .
+													'<img src="' .
+														$page['thumbnail']['source'] .
+														'" width="' .
+														$page['thumbnail']['width'] .
+														'" height="' .
+														$page['thumbnail']['height'] .
+													'" />' .
+												'</p>' .
+											'</div>';
+									}
 								}
 							}
 						}
