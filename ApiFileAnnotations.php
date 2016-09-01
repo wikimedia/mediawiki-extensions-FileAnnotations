@@ -174,7 +174,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 										$annotationData['parsed'] =
 											'<div class="wikipedia-article-annotation">' .
 												$page['extract'] .
-												'<p>' .
+												'<p class="pageimage">' .
 													'<img src="' .
 														$page['thumbnail']['source'] .
 														'" width="' .
@@ -209,6 +209,44 @@ class ApiFileAnnotations extends ApiQueryBase {
 									$claims = $entity['claims'];
 
 									$annotationData['parsed'] = '<div class="wikidata-entity-annotation">';
+
+									foreach ( $claims as $claimid => $claim ) {
+										switch ( $claimid ) {
+											case 'P18':
+												// Main image. Fetch imageinfo and render.
+												$imageApiDataStr = file_get_contents(
+													'https://commons.wikimedia.org/w/api.php' .
+													'?action=query&prop=imageinfo' .
+													'&titles=File:' . urlencode( $claim[0]['mainsnak']['datavalue']['value'] ) .
+													'&iiprop=url&iiurlwidth=200' .
+													'&iiurlheight=200&format=json'
+												);
+
+												$imageApiData = json_decode( $imageApiDataStr, true );
+
+												$pages = $imageApiData['query']['pages'];
+
+												$annotationData['parsed'] .= '<div class="wikidata-image">';
+
+												foreach ( $pages as $id => $page ) {
+													// There's only one page. Add HTML here.
+													$info = $page['imageinfo'][0];
+													$annotationData['parsed'] .=
+														'<a class="commons-image" href="' . $info['descriptionurl'] . '">' .
+															'<img src="' . $info['thumburl'] . '" />' .
+														'</a>';
+													break;
+												}
+
+												$annotationData['parsed'] .= '</div>';
+
+											default:
+												continue;
+										}
+									}
+
+									$annotationData['parsed'] .= '<div class="text-content">';
+
 									if ( isset( $labels[$currentLang] ) ) {
 										$annotationData['parsed'] .=
 											'<h2 class="wikidata-label">' .
@@ -235,40 +273,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 											'</p>';
 									}
 
-									foreach ( $claims as $claimid => $claim ) {
-										switch ( $claimid ) {
-											case 'P18':
-												// Main image. Fetch imageinfo and render.
-												$imageApiDataStr = file_get_contents(
-													'https://commons.wikimedia.org/w/api.php' .
-													'?action=query&prop=imageinfo' .
-													'&titles=File:' . urlencode( $claim[0]['mainsnak']['datavalue']['value'] ) .
-													'&iiprop=url&iiurlwidth=100' .
-													'&iiurlheight=100&format=json'
-												);
-
-												$imageApiData = json_decode( $imageApiDataStr, true );
-
-												$pages = $imageApiData['query']['pages'];
-
-												$annotationData['parsed'] .= '<div class="wikidata-image">';
-
-												foreach ( $pages as $id => $page ) {
-													// There's only one page. Add HTML here.
-													$info = $page['imageinfo'][0];
-													$annotationData['parsed'] .=
-														'<a class="commons-image" href="' . $info['descriptionurl'] . '">' .
-															'<img src="' . $info['thumburl'] . '" />' .
-														'</a>';
-													break;
-												}
-
-												$annotationData['parsed'] .= '</div>';
-
-											default:
-												continue;
-										}
-									}
+									$annotationData['parsed'] .= '</div>';
 
 									$annotationData['parsed'] .= '</div>';
 								}
