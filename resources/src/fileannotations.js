@@ -125,6 +125,9 @@
 										annotator.getAndRenderAnnotations();
 									} );
 								} );
+
+							// Dont want to click and open the image
+							e.preventDefault();
 						} );
 				} );
 
