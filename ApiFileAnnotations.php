@@ -23,13 +23,11 @@
  * @copyright 2015 Mark Holmquist
  * @license GNU General Public License version 2.0
  */
+use MediaWiki\MediaWikiServices;
 
 class ApiFileAnnotations extends ApiQueryBase {
-	// 5 minutes - long enough to avoid crashing the servers with a lot
-	// of repeated requests for the same data, but not long enough so it's
-	// hard to update information quickly. Cache not invalidated by changes
-	// to Wikidata, Wikipedia, or Commons.
-	const CACHE_TTL = 300;
+	const MIN_CACHE_TTL = WANObjectCache::TTL_MINUTE;
+	const MAX_CACHE_TTL = WANObjectCache::TTL_DAY;
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'fa' );
@@ -86,12 +84,16 @@ class ApiFileAnnotations extends ApiQueryBase {
 	protected function renderCommonsAnnotation( $commonsMatches ) {
 		$categoryName = $commonsMatches[1];
 
+		$safeAsOf = $this->getSafeCacheAsOfForUser( 'commonswiki' );
+
 		$cache = ObjectCache::getMainWANInstance();
+		$cacheKey = $cache->makeKey( 'fileannotations', 'commonscategory', $categoryName );
 
 		return $cache->getWithSetCallback(
-			$cache->makeKey( 'fileannotations', 'commonscategory', $categoryName ),
-			self::CACHE_TTL,
-			function ( $oldValue, &$ttl, array &$setOpts ) use ( $categoryName ) {
+			$cacheKey,
+			self::MAX_CACHE_TTL,
+			function ( $oldValue, &$ttl, array &$setOpts, $oldAsOf )
+			use ( $cache, $categoryName, $cacheKey, $safeAsOf ) {
 				$client = new MultiHttpClient( [] );
 
 				$response = $client->run( [
@@ -111,9 +113,14 @@ class ApiFileAnnotations extends ApiQueryBase {
 					],
 				] );
 
-				$imagesApiData = json_decode( $response['body'], true );
+				if ( $response['code'] == 200 ) {
+					$imagesApiData = json_decode( $response['body'], true );
+					$pages = $imagesApiData['query']['pages'];
+				} else {
+					$pages = [];
 
-				$pages = $imagesApiData['query']['pages'];
+					$ttl = $cache::TTL_UNCACHEABLE;
+				}
 
 				$imagesHtml = '<div class="category-members">';
 
@@ -136,25 +143,38 @@ class ApiFileAnnotations extends ApiQueryBase {
 					? '<a href="' . $href . '">' . 'See more images' . '</a>'
 					: '';
 
-				return
+				$html =
 					'<div class="commons-category-annotation">' .
 						$imagesHtml .
 						$seeMoreHtml .
 					'</div>';
-			}
+
+				$setOpts['staleTTL'] = self::MAX_CACHE_TTL;
+				if ( self::maybePurge( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) ) {
+					$ttl = $cache::TTL_UNCACHEABLE; // don't bother; tombstoned by delete()
+				} else {
+					$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
+				}
+
+				return $html;
+			},
+			[ 'minAsOf' => $safeAsOf ]
 		);
 	}
 
 	protected function renderWikipediaAnnotation( $wpMatches ) {
 		$articleName = $wpMatches[2];
 		$language = $wpMatches[1];
+		$safeAsOf = $this->getSafeCacheAsOfForUser( 'enwiki' );
 
 		$cache = ObjectCache::getMainWANInstance();
+		$cacheKey = $cache->makeKey( 'fileannotations', 'wikipediapage', $language, $articleName );
 
 		return $cache->getWithSetCallback(
-			$cache->makeKey( 'fileannotations', 'wikipediapage', $language, $articleName ),
-			self::CACHE_TTL,
-			function ( $oldValue, &$ttl, array &$setOpts ) use ( $articleName, $language ) {
+			$cacheKey,
+			self::MAX_CACHE_TTL,
+			function ( $oldValue, &$ttl, array &$setOpts, $oldAsOf )
+			use ( $cache, $articleName, $language, $cacheKey, $safeAsOf ) {
 				$client = new MultiHttpClient( [] );
 
 				$response = $client->run( [
@@ -171,13 +191,18 @@ class ApiFileAnnotations extends ApiQueryBase {
 					],
 				] );
 
-				$articleApiData = json_decode( $response['body'], true );
+				if ( $response['code'] == 200 ) {
+					$articleApiData = json_decode( $response['body'], true );
+					$pages = $articleApiData['query']['pages'];
+				} else {
+					$pages = [];
 
-				$pages = $articleApiData['query']['pages'];
+					$ttl = $cache::TTL_UNCACHEABLE;
+				}
 
 				$page = reset( $pages );
 				// There's only one page, so just do it here
-				return
+				$html =
 					'<div class="wikipedia-article-annotation">' .
 						$page['extract'] .
 						'<p class="pageimage">' .
@@ -190,20 +215,33 @@ class ApiFileAnnotations extends ApiQueryBase {
 							'" />' .
 						'</p>' .
 					'</div>';
-			}
+
+				$setOpts['staleTTL'] = self::MAX_CACHE_TTL;
+				if ( self::maybePurge( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) ) {
+					$ttl = $cache::TTL_UNCACHEABLE; // don't bother; tombstoned by delete()
+				} else {
+					$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
+				}
+
+				return $html;
+			},
+			[ 'minAsOf' => $safeAsOf ]
 		);
 	}
 
 	protected function renderWikidataAnnotation( $wdMatches ) {
 		$entityId = $wdMatches[2];
 		$currentLang = $this->getLanguage()->getCode();
+		$safeAsOf = $this->getSafeCacheAsOfForUser( 'wikidatawiki' );
 
 		$cache = ObjectCache::getMainWANInstance();
+		$cacheKey = $cache->makeKey( 'fileannotations', 'wikidataentity', $currentLang, $entityId );
 
 		return $cache->getWithSetCallback(
-			$cache->makeKey( 'fileannotations', 'wikidataentity', $currentLang, $entityId ),
-			self::CACHE_TTL,
-			function ( $oldValue, &$ttl, array &$setOpts ) use ( $entityId, $currentLang ) {
+			$cacheKey,
+			self::MAX_CACHE_TTL,
+			function ( $oldValue, &$ttl, array &$setOpts, $oldAsOf )
+			use ( $cache, $entityId, $currentLang, $safeAsOf, $cacheKey ) {
 				$client = new MultiHttpClient( [] );
 
 				$response = $client->run( [
@@ -218,9 +256,14 @@ class ApiFileAnnotations extends ApiQueryBase {
 					],
 				] );
 
-				$entityApiData = json_decode( $response['body'], true );
+				if ( $response['code'] == 200 ) {
+					$entityApiData = json_decode( $response['body'], true );
+					$entity = $entityApiData['entities'][$entityId];
+				} else {
+					$ttl = $cache::TTL_UNCACHEABLE;
 
-				$entity = $entityApiData['entities'][$entityId];
+					return '';
+				}
 
 				$labels = $entity['labels'];
 				$descriptions = $entity['descriptions'];
@@ -271,26 +314,30 @@ class ApiFileAnnotations extends ApiQueryBase {
 						'</p>';
 				}
 
-				$parsed = '<div class="wikidata-entity-annotation">';
-
+				$html = '<div class="wikidata-entity-annotation">';
 				if ( !is_null( $imageHtml ) ) {
-					$parsed .= $imageHtml;
+					$html .= $imageHtml;
 				}
-
 				if ( !is_null( $label ) || !is_null( $description ) ) {
-					$parsed .= '<div class="text-content">';
-
+					$html .= '<div class="text-content">';
 					if ( !is_null( $label ) ) {
-						$parsed .= $label;
+						$html .= $label;
 					}
-
 					if ( !is_null( $description ) ) {
-						$parsed .= $description;
+						$html .= $description;
 					}
 				}
 
-				return $parsed;
-			}
+				$setOpts['staleTTL'] = self::MAX_CACHE_TTL;
+				if ( self::maybePurge( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) ) {
+					$ttl = $cache::TTL_UNCACHEABLE; // don't bother; tombstoned by delete()
+				} else {
+					$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
+				}
+
+				return $html;
+			},
+			[ 'minAsOf' => $safeAsOf ]
 		);
 	}
 
@@ -421,5 +468,58 @@ class ApiFileAnnotations extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => 'boolean',
 			],
 		];
+	}
+
+	/**
+	 * @param string|bool $oldValue
+	 * @param string $newValue
+	 * @param float|null $oldAsOf
+	 * @param integer $ttl Nominal/maximum TTL
+	 * @return int
+	 */
+	private static function elasticCacheTTL( $oldValue, $newValue, $oldAsOf, $ttl ) {
+		if ( $oldValue === $newValue ) {
+			$oldAge = (int)ceil( microtime( true ) - $oldAsOf );
+
+			return min( $oldAge * 2, $ttl );
+		}
+
+		return min( self::MIN_CACHE_TTL, $ttl );
+	}
+
+	/**
+	 * @param float|null $safeAsOf
+	 * @param string|bool $oldValue
+	 * @param string $html
+	 * @param WANObjectCache $cache
+	 * @param string $cacheKey
+	 * @return bool Whether key was purged
+	 */
+	private static function maybePurge( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) {
+		if ( $safeAsOf && $oldValue !== false && $oldValue !== $html ) {
+			// User possibly expecting to see the new value and it does not match.
+			// Delete the key from all datacenters and yeild the new value.
+			$cache->delete( $cacheKey );
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * If a user recently made changes to one of the shared wiki's, try to avoid using a
+	 * stale cache keys for the fileinfo API queries to that wiki and also purge the keys
+	 * if they are outdated, so that it shows in all datacenters
+	 *
+	 * @param string $dbName
+	 * @return mixed
+	 */
+	private function getSafeCacheAsOfForUser( $dbName ) {
+		// If this site is part of the WMF cluster, these timestamp will be set
+		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
+		$touched = $lbFactory->getChronologyProtectorTouched( $dbName );
+		// Account for DB replica lag with HOLDOFF_TTL
+		return is_float( $touched ) ? ( $touched + WANObjectCache::HOLDOFF_TTL ) : null;
 	}
 }
