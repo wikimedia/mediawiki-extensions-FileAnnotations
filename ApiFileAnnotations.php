@@ -91,21 +91,26 @@ class ApiFileAnnotations extends ApiQueryBase {
 			$cache->makeKey( 'fileannotations', 'commonscategory', $categoryName ),
 			self::CACHE_TTL,
 			function ( $oldValue, &$ttl, array &$setOpts ) use ( $categoryName ) {
-				$imagesApiDataStr = file_get_contents(
-					'https://commons.wikimedia.org/w/api.php' .
-					'?action=query' .
-					'&prop=imageinfo' .
-					'&generator=categorymembers' .
-					'&gcmtype=file' .
-					'&gcmtitle=' . urlencode( $categoryName ) .
-					'&gcmlimit=5' .
-					'&iiprop=url' .
-					'&iiurlwidth=100' .
-					'&iiurlheight=100' .
-					'&format=json'
-				);
+				$client = new MultiHttpClient( [] );
 
-				$imagesApiData = json_decode( $imagesApiDataStr, true );
+				$response = $client->run( [
+					'method' => 'GET',
+					'url' => 'https://commons.wikimedia.org/w/api.php',
+					'query' => [
+						'action' => 'query',
+						'prop' => 'imageinfo',
+						'generator' => 'categorymembers',
+						'gcmtype' => 'file',
+						'gcmtitle' => $categoryName,
+						'gcmlimit' => 5,
+						'iiprop' => 'url',
+						'iiurlwidth' => 100,
+						'iiurlheight' => 100,
+						'format' => 'json',
+					],
+				] );
+
+				$imagesApiData = json_decode( $response['body'], true );
 
 				$pages = $imagesApiData['query']['pages'];
 
@@ -145,18 +150,23 @@ class ApiFileAnnotations extends ApiQueryBase {
 			$cache->makeKey( 'fileannotations', 'wikipediapage', $language, $articleName ),
 			self::CACHE_TTL,
 			function ( $oldValue, &$ttl, array &$setOpts ) use ( $articleName, $language ) {
-				$articleApiDataStr = file_get_contents(
-					$language .
-					'/w/api.php?action=query' .
-					'&titles=' . urlencode( $articleName ) .
-					'&prop=pageimages|extracts' .
-					'&piprop=thumbnail|name' .
-					'&pithumbsize=250' .
-					'&exsentences=4' .
-					'&format=json'
-				);
+				$client = new MultiHttpClient( [] );
 
-				$articleApiData = json_decode( $articleApiDataStr, true );
+				$response = $client->run( [
+					'method' => 'GET',
+					'url' => $language . '/w/api.php',
+					'query' => [
+						'action' => 'query',
+						'titles' => $articleName,
+						'prop' => 'pageimages|extracts',
+						'piprop' => 'thumbnail|name',
+						'pithumbsize' => 250,
+						'exsentences' => 4,
+						'format' => 'json',
+					],
+				] );
+
+				$articleApiData = json_decode( $response['body'], true );
 
 				$pages = $articleApiData['query']['pages'];
 
@@ -190,16 +200,21 @@ class ApiFileAnnotations extends ApiQueryBase {
 			$cache->makeKey( 'fileannotations', 'wikidataentity', $currentLang, $entityId ),
 			self::CACHE_TTL,
 			function ( $oldValue, &$ttl, array &$setOpts ) use ( $entityId, $currentLang ) {
-				$entityApiDataStr = file_get_contents(
-					'https://www.wikidata.org/w/api.php' .
-					'?action=wbgetentities' .
-					'&ids=' . $entityId .
-					'&languages=en|' . $currentLang .
-					'&props=labels|descriptions|claims' .
-					'&format=json'
-				);
+				$client = new MultiHttpClient( [] );
 
-				$entityApiData = json_decode( $entityApiDataStr, true );
+				$response = $client->run( [
+					'method' => 'GET',
+					'url' => 'https://www.wikidata.org/w/api.php',
+					'query' => [
+						'action' => 'wbgetentities',
+						'ids' => $entityId,
+						'languages' => 'en|' . $currentLang,
+						'props' => 'labels|descriptions|claims',
+						'format' => 'json',
+					],
+				] );
+
+				$entityApiData = json_decode( $response['body'], true );
 
 				$entity = $entityApiData['entities'][$entityId];
 
@@ -276,18 +291,23 @@ class ApiFileAnnotations extends ApiQueryBase {
 	}
 
 	protected function renderWdImage( $imageTitle ) {
-		$imageApiDataStr = file_get_contents(
-			'https://commons.wikimedia.org/w/api.php' .
-			'?action=query' .
-			'&prop=imageinfo' .
-			'&titles=File:' . urlencode( $imageTitle ) .
-			'&iiprop=url' .
-			'&iiurlwidth=200' .
-			'&iiurlheight=200' .
-			'&format=json'
-		);
+		$client = new MultiHttpClient( [] );
 
-		$imageApiData = json_decode( $imageApiDataStr, true );
+		$response = $client->run( [
+			'method' => 'GET',
+			'url' => 'https://commons.wikimedia.org/w/api.php',
+			'query' => [
+				'action' => 'query',
+				'prop' => 'imageinfo',
+				'titles' => 'File:' . $imageTitle,
+				'iiprop' => 'url',
+				'iiurlwidth' => 200,
+				'iiurlheight' => 200,
+				'format' => 'json',
+			]
+		] );
+
+		$imageApiData = json_decode( $response['body'], true );
 
 		$pages = $imageApiData['query']['pages'];
 		$imageLink = null;
