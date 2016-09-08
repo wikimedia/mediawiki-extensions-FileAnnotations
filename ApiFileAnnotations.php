@@ -46,6 +46,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 			asort( $titles ); // Ensure the order is always the same
 
 			foreach ( $titles as $title ) {
+				/** @noinspection PhpUndefinedConstantInspection */
 				$faTitle = Title::makeTitle(
 					NS_FILE_ANNOTATIONS,
 					$title
@@ -53,7 +54,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 				$page = WikiPage::factory( $faTitle );
 				$content = $page->getContent();
-				if ( !empty( $content ) ) {
+				if ( $content instanceof FileAnnotationsContent ) {
 					$dataStatus = $content->getData();
 					$data = $dataStatus->getValue();
 
@@ -116,6 +117,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 				$imagesHtml = '<div class="category-members">';
 
+				$href = null;
 				foreach ( $pages as $id => $page ) {
 					$info = $page['imageinfo'][0];
 					$href = $info['descriptionurl'];
@@ -129,12 +131,15 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 				$imagesHtml .= '</div>';
 
+				// @FIXME: i18n!
+				$seeMoreHtml = $pages
+					? '<a href="' . $href . '">' . 'See more images' . '</a>'
+					: '';
+
 				return
 					'<div class="commons-category-annotation">' .
 						$imagesHtml .
-						'<a href="' . $href . '">' .
-							'See more images' .
-						'</a>' .
+						$seeMoreHtml .
 					'</div>';
 			}
 		);
@@ -170,22 +175,21 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 				$pages = $articleApiData['query']['pages'];
 
-				foreach ( $pages as $id => $page ) {
-					// There's only one page, so just do it here
-					return
-						'<div class="wikipedia-article-annotation">' .
-							$page['extract'] .
-							'<p class="pageimage">' .
-								'<img src="' .
-									$page['thumbnail']['source'] .
-									'" width="' .
-									$page['thumbnail']['width'] .
-									'" height="' .
-									$page['thumbnail']['height'] .
-								'" />' .
-							'</p>' .
-						'</div>';
-				}
+				$page = reset( $pages );
+				// There's only one page, so just do it here
+				return
+					'<div class="wikipedia-article-annotation">' .
+						$page['extract'] .
+						'<p class="pageimage">' .
+							'<img src="' .
+								$page['thumbnail']['source'] .
+								'" width="' .
+								$page['thumbnail']['width'] .
+								'" height="' .
+								$page['thumbnail']['height'] .
+							'" />' .
+						'</p>' .
+					'</div>';
 			}
 		);
 	}
@@ -312,19 +316,18 @@ class ApiFileAnnotations extends ApiQueryBase {
 		$pages = $imageApiData['query']['pages'];
 		$imageLink = null;
 
-		foreach ( $pages as $id => $page ) {
-			// There's only one page. Add HTML here.
-			$info = $page['imageinfo'][0];
-			return
-				'<div class="wikidata-image">' .
-					'<a class="commons-image" href="' . $info['descriptionurl'] . '">' .
-						'<img src="' . $info['thumburl'] . '" />' .
-					'</a>' .
-				'</div>';
-		}
+		$page = reset( $pages );
+		// There's only one page. Add HTML here.
+		$info = $page['imageinfo'][0];
+		return
+			'<div class="wikidata-image">' .
+				'<a class="commons-image" href="' . $info['descriptionurl'] . '">' .
+					'<img src="' . $info['thumburl'] . '" />' .
+				'</a>' .
+			'</div>';
 	}
 
-	protected function parseAnnotation( $text, $faTitle, $parser, $popts ) {
+	protected function parseAnnotation( $text, $faTitle, Parser $parser, $popts ) {
 		$presult = $parser->parse( $text, $faTitle, $popts );
 		$parsed = $presult->mText;
 
@@ -338,7 +341,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 		// Check if it's a link element.
 		if ( $possibleLink->nodeType === XML_ELEMENT_NODE && $possibleLink->nodeName === 'a' ) {
-			// Find out if the link is something we care about.
+			// Find out if the link is something we care about
+			/** @noinspection PhpUndefinedFieldInspection */
 			$href = $possibleLink->attributes->getNamedItem( 'href' )->value;
 
 			$commonsMatches = [];
