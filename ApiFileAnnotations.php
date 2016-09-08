@@ -25,13 +25,17 @@
  */
 
 class ApiFileAnnotations extends ApiQueryBase {
+	// 5 minutes - long enough to avoid crashing the servers with a lot
+	// of repeated requests for the same data, but not long enough so it's
+	// hard to update information quickly. Cache not invalidated by changes
+	// to Wikidata, Wikipedia, or Commons.
+	const CACHE_TTL = 300;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'fa' );
 	}
 
 	public function execute() {
-		wfProfileIn( __METHOD__ );
-
 		$params = $this->extractRequestParams();
 		$shouldParse = $params['parse'];
 
@@ -78,172 +82,197 @@ class ApiFileAnnotations extends ApiQueryBase {
 		}
 	}
 
-	protected function renderCommonsAnnotation( $commonsMatches, $commonsCategoryMatch ) {
+	protected function renderCommonsAnnotation( $commonsMatches ) {
 		$categoryName = $commonsMatches[1];
 
-		$imagesApiDataStr = file_get_contents(
-			'https://commons.wikimedia.org/w/api.php' .
-			'?action=query' .
-			'&prop=imageinfo' .
-			'&generator=categorymembers' .
-			'&gcmtype=file' .
-			'&gcmtitle=' . urlencode( $categoryName ) .
-			'&gcmlimit=5' .
-			'&iiprop=url' .
-			'&iiurlwidth=100' .
-			'&iiurlheight=100' .
-			'&format=json'
+		$cache = ObjectCache::getMainWANInstance();
+
+		return $cache->getWithSetCallback(
+			$cache->makeKey( 'fileannotations', 'commonscategory', $categoryName ),
+			self::CACHE_TTL,
+			function ( $oldValue, &$ttl, array &$setOpts ) use ( $categoryName ) {
+				$imagesApiDataStr = file_get_contents(
+					'https://commons.wikimedia.org/w/api.php' .
+					'?action=query' .
+					'&prop=imageinfo' .
+					'&generator=categorymembers' .
+					'&gcmtype=file' .
+					'&gcmtitle=' . urlencode( $categoryName ) .
+					'&gcmlimit=5' .
+					'&iiprop=url' .
+					'&iiurlwidth=100' .
+					'&iiurlheight=100' .
+					'&format=json'
+				);
+
+				$imagesApiData = json_decode( $imagesApiDataStr, true );
+
+				$pages = $imagesApiData['query']['pages'];
+
+				$imagesHtml = '<div class="category-members">';
+
+				foreach ( $pages as $id => $page ) {
+					$info = $page['imageinfo'][0];
+					$href = $info['descriptionurl'];
+					$src = $info['thumburl'];
+
+					$imagesHtml .=
+						'<a class="category-member" href="' . $href . '">' .
+							'<img src="' . $src . '" />' .
+						'</a>';
+				}
+
+				$imagesHtml .= '</div>';
+
+				return
+					'<div class="commons-category-annotation">' .
+						$imagesHtml .
+						'<a href="' . $href . '">' .
+							'See more images' .
+						'</a>' .
+					'</div>';
+			}
 		);
-
-		$imagesApiData = json_decode( $imagesApiDataStr, true );
-
-		$pages = $imagesApiData['query']['pages'];
-
-		$imagesHtml = '<div class="category-members">';
-
-		foreach ( $pages as $id => $page ) {
-			$info = $page['imageinfo'][0];
-			$href = $info['descriptionurl'];
-			$src = $info['thumburl'];
-
-			$imagesHtml .=
-				'<a class="category-member" href="' . $href . '">' .
-					'<img src="' . $src . '" />' .
-				'</a>';
-		}
-
-		$imagesHtml .= '</div>';
-
-		return
-			'<div class="commons-category-annotation">' .
-				$imagesHtml .
-				'<a href="' . $href . '">' .
-					'See more images' .
-				'</a>' .
-			'</div>';
 	}
 
-	protected function renderWikipediaAnnotation( $wpMatches, $wpArticleMatch ) {
+	protected function renderWikipediaAnnotation( $wpMatches ) {
 		$articleName = $wpMatches[2];
+		$language = $wpMatches[1];
 
-		$articleApiDataStr = file_get_contents(
-			$wpMatches[1] .
-			'/w/api.php?action=query' .
-			'&titles=' . urlencode( $articleName ) .
-			'&prop=pageimages|extracts' .
-			'&piprop=thumbnail|name' .
-			'&pithumbsize=250' .
-			'&exsentences=4' .
-			'&format=json'
+		$cache = ObjectCache::getMainWANInstance();
+
+		return $cache->getWithSetCallback(
+			$cache->makeKey( 'fileannotations', 'wikipediapage', $language, $articleName ),
+			self::CACHE_TTL,
+			function ( $oldValue, &$ttl, array &$setOpts ) use ( $articleName, $language ) {
+				$articleApiDataStr = file_get_contents(
+					$language .
+					'/w/api.php?action=query' .
+					'&titles=' . urlencode( $articleName ) .
+					'&prop=pageimages|extracts' .
+					'&piprop=thumbnail|name' .
+					'&pithumbsize=250' .
+					'&exsentences=4' .
+					'&format=json'
+				);
+
+				$articleApiData = json_decode( $articleApiDataStr, true );
+
+				$pages = $articleApiData['query']['pages'];
+
+				foreach ( $pages as $id => $page ) {
+					// There's only one page, so just do it here
+					return
+						'<div class="wikipedia-article-annotation">' .
+							$page['extract'] .
+							'<p class="pageimage">' .
+								'<img src="' .
+									$page['thumbnail']['source'] .
+									'" width="' .
+									$page['thumbnail']['width'] .
+									'" height="' .
+									$page['thumbnail']['height'] .
+								'" />' .
+							'</p>' .
+						'</div>';
+				}
+			}
 		);
-
-		$articleApiData = json_decode( $articleApiDataStr, true );
-
-		$pages = $articleApiData['query']['pages'];
-
-		foreach ( $pages as $id => $page ) {
-			// There's only one page, so just do it here
-			return
-				'<div class="wikipedia-article-annotation">' .
-					$page['extract'] .
-					'<p class="pageimage">' .
-						'<img src="' .
-							$page['thumbnail']['source'] .
-							'" width="' .
-							$page['thumbnail']['width'] .
-							'" height="' .
-							$page['thumbnail']['height'] .
-						'" />' .
-					'</p>' .
-				'</div>';
-		}
 	}
 
-	protected function renderWikidataAnnotation( $wdMatches, $wdEntityMatch ) {
+	protected function renderWikidataAnnotation( $wdMatches ) {
 		$entityId = $wdMatches[2];
 		$currentLang = $this->getLanguage()->getCode();
 
-		$entityApiDataStr = file_get_contents(
-			'https://www.wikidata.org/w/api.php' .
-			'?action=wbgetentities' .
-			'&ids=' . $entityId .
-			'&languages=en|' . $currentLang .
-			'&props=labels|descriptions|claims' .
-			'&format=json'
+		$cache = ObjectCache::getMainWANInstance();
+
+		return $cache->getWithSetCallback(
+			$cache->makeKey( 'fileannotations', 'wikidataentity', $currentLang, $entityId ),
+			self::CACHE_TTL,
+			function ( $oldValue, &$ttl, array &$setOpts ) use ( $entityId, $currentLang ) {
+				$entityApiDataStr = file_get_contents(
+					'https://www.wikidata.org/w/api.php' .
+					'?action=wbgetentities' .
+					'&ids=' . $entityId .
+					'&languages=en|' . $currentLang .
+					'&props=labels|descriptions|claims' .
+					'&format=json'
+				);
+
+				$entityApiData = json_decode( $entityApiDataStr, true );
+
+				$entity = $entityApiData['entities'][$entityId];
+
+				$labels = $entity['labels'];
+				$descriptions = $entity['descriptions'];
+				$claims = $entity['claims'];
+
+				$imageHtml = null;
+
+				foreach ( $claims as $claimid => $claim ) {
+					switch ( $claimid ) {
+						case 'P18':
+							// Main image. Fetch imageinfo and render.
+							$imageHtml = $this->renderWdImage(
+								$claim[0]['mainsnak']['datavalue']['value']
+							);
+							break;
+
+						default:
+							continue;
+					}
+				}
+
+				$label = null;
+				$description = null;
+
+				if ( isset( $labels[$currentLang] ) ) {
+					$label =
+						'<h2 class="wikidata-label">' .
+							$labels[$currentLang]['value'] .
+						'</h2>';
+				} elseif ( isset( $labels['en'] ) ) {
+					// Blatantly strange fallback, but we don't want to have
+					// no label...hopefully this works for 99% of things.
+					$label =
+						'<h2 class="wikidata-label">' .
+							$labels['en']['value'] .
+						'</h2>';
+				}
+
+				if ( isset( $descriptions[$currentLang] ) ) {
+					$description =
+						'<p class="wikidata-description">' .
+							$descriptions[$currentLang]['value'] .
+						'</p>';
+				} elseif ( isset( $descriptions['en'] ) ) {
+					$description =
+						'<p class="wikidata-description">' .
+							$descriptions['en']['value'] .
+						'</p>';
+				}
+
+				$parsed = '<div class="wikidata-entity-annotation">';
+
+				if ( !is_null( $imageHtml ) ) {
+					$parsed .= $imageHtml;
+				}
+
+				if ( !is_null( $label ) || !is_null( $description ) ) {
+					$parsed .= '<div class="text-content">';
+
+					if ( !is_null( $label ) ) {
+						$parsed .= $label;
+					}
+
+					if ( !is_null( $description ) ) {
+						$parsed .= $description;
+					}
+				}
+
+				return $parsed;
+			}
 		);
-
-		$entityApiData = json_decode( $entityApiDataStr, true );
-
-		$entity = $entityApiData['entities'][$entityId];
-
-		$labels = $entity['labels'];
-		$descriptions = $entity['descriptions'];
-		$claims = $entity['claims'];
-
-		$imageHtml = null;
-
-		foreach ( $claims as $claimid => $claim ) {
-			switch ( $claimid ) {
-				case 'P18':
-					// Main image. Fetch imageinfo and render.
-					$imageHtml = $this->renderWdImage(
-						$claim[0]['mainsnak']['datavalue']['value']
-					);
-					break;
-
-				default:
-					continue;
-			}
-		}
-
-		$label = null;
-		$description = null;
-
-		if ( isset( $labels[$currentLang] ) ) {
-			$label =
-				'<h2 class="wikidata-label">' .
-					$labels[$currentLang]['value'] .
-				'</h2>';
-		} elseif ( isset( $labels['en'] ) ) {
-			// Blatantly strange fallback, but we don't want to have
-			// no label...hopefully this works for 99% of things.
-			$label =
-				'<h2 class="wikidata-label">' .
-					$labels['en']['value'] .
-				'</h2>';
-		}
-
-		if ( isset( $descriptions[$currentLang] ) ) {
-			$description =
-				'<p class="wikidata-description">' .
-					$descriptions[$currentLang]['value'] .
-				'</p>';
-		} elseif ( isset( $descriptions['en'] ) ) {
-			$description =
-				'<p class="wikidata-description">' .
-					$descriptions['en']['value'] .
-				'</p>';
-		}
-
-		$html = '<div class="wikidata-entity-annotation">';
-
-		if ( !is_null( $imageHtml ) ) {
-			$html .= $imageHtml;
-		}
-
-		if ( !is_null( $label ) || !is_null( $description ) ) {
-			$html .= '<div class="text-content">';
-
-			if ( !is_null( $label ) ) {
-				$html .= $label;
-			}
-
-			if ( !is_null( $description ) ) {
-				$html .= $description;
-			}
-		}
-
-		return $html;
 	}
 
 	protected function renderWdImage( $imageTitle ) {
@@ -315,22 +344,19 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 			if ( $commonsCategoryMatch === 1 ) {
 				$parsed = $this->renderCommonsAnnotation(
-					$commonsMatches,
-					$commonsCategoryMatch
+					$commonsMatches
 				);
 			}
 
 			if ( $wpArticleMatch === 1 ) {
 				$parsed = $this->renderWikipediaAnnotation(
-					$wpMatches,
-					$wpArticleMatch
+					$wpMatches
 				);
 			}
 
 			if ( $wdEntityMatch === 1 ) {
 				$parsed = $this->renderWikidataAnnotation(
-					$wdMatches,
-					$wdEntityMatch
+					$wdMatches
 				);
 			}
 		}
