@@ -58,7 +58,6 @@
 
 			"messages": [
 				"fileannotations-create",
-				"fileannotations-file-has-annotations",
 				"fileannotations-save",
 				"fileannotations-cancel",
 				"fileannotations-edit",
