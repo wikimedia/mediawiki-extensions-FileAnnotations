@@ -22,20 +22,13 @@
  */
 
 class FileAnnotationsHooks {
-	public static function onRegistration() {
-		return true;
-	}
-
-	public static function onSetup() {
-		return true;
-	}
-
-	public static function getModulesForFilePage( &$out, &$skin ) {
+	public static function onBeforePageDisplay( &$out, &$skin ) {
 		// Dump it on every page.
-		$out->addModules( [ 'fileannotations' ] );
+		$out->addModules( [ 'ext.fileannotations' ] );
 	}
 
-	public static function addFileAnnotationsTab( SkinTemplate &$sktemplate, array &$links ) {
+	public static function onSkinTemplateNavigation( SkinTemplate &$sktemplate, array &$links ) {
+		// Add the "File annotations" tab on file pages
 		$title = $sktemplate->getTitle();
 		if ( $title->inNamespace( NS_FILE ) ) {
 			$fatitle = Title::makeTitle(
@@ -43,7 +36,7 @@ class FileAnnotationsHooks {
 				$title->getDBkey()
 			);
 
-			$tabMessage = new Message(
+			$tabMessage = $sktemplate->msg(
 				'fileannotations-tab'
 			);
 

@@ -8,7 +8,6 @@
 	"descriptionmsg": "fileannotations-desc",
 	"license-name": "GPL-3.0",
 	"type": "other",
-	"callback": "FileAnnotationsHooks::onRegistration",
 	"namespaces": [
 		{
 			"name": "File_Annotations",
@@ -36,26 +35,23 @@
 		]
 	},
 	"Hooks": {
-		"BeforePageDisplay": "FileAnnotationsHooks::getModulesForFilePage",
-		"SkinTemplateNavigation": "FileAnnotationsHooks::addFileAnnotationsTab"
+		"BeforePageDisplay": "FileAnnotationsHooks::onBeforePageDisplay",
+		"SkinTemplateNavigation": "FileAnnotationsHooks::onSkinTemplateNavigation"
 	},
 	"ResourceModules": {
-		"fileannotations": {
+		"ext.fileannotations": {
 			"scripts": [
 				"resources/src/fileannotations.js"
 			],
-
 			"styles": [
 				"resources/src/fileannotations.less"
 			],
-
 			"dependencies": [
 				"mediawiki.Title",
 				"jquery.ui.draggable",
 				"jquery.ui.resizable",
 				"oojs-ui"
 			],
-
 			"messages": [
 				"fileannotations-create",
 				"fileannotations-save",
@@ -70,9 +66,6 @@
 		"localBasePath": "",
 		"remoteExtPath": "FileAnnotations"
 	},
-	"ExtensionFunctions": [
-		"FileAnnotationsHooks::onSetup"
-	],
 	"AutoloadClasses": {
 		"ApiFileAnnotations": "ApiFileAnnotations.php",
 		"FileAnnotationsHooks": "FileAnnotations.hooks.php",

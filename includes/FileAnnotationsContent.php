@@ -32,16 +32,16 @@ class FileAnnotationsContent extends JsonContent {
 			throw new JsonSchemaException( wfMessage( 'eventlogging-invalid-json' )->parse() );
 		}
 
-		$schema = include ( __DIR__ . '/FileAnnotationsSchema.php' );
+		$schema = include __DIR__ . '/FileAnnotationsSchema.php';
 
-		$arrayAnnotations = (array) $annotations;
+		$arrayAnnotations = (array)$annotations;
 
 		$allAnnotations = isset( $arrayAnnotations['annotations'] )
 			? $arrayAnnotations['annotations']
 			: [];
 
 		foreach ( $allAnnotations as $i => $annotation ) {
-			$allAnnotations[$i] = (array) $annotation;
+			$allAnnotations[$i] = (array)$annotation;
 		}
 
 		$arrayAnnotations['annotations'] = $allAnnotations;
@@ -72,15 +72,17 @@ class FileAnnotationsContent extends JsonContent {
 				$title->getDBkey()
 			);
 
-			$fileMsg = new Message(
+			$fileMsg = wfMessage(
 				'fileannotations-go-to-filepage',
-				[ $fileTitle->getPrefixedDBkey() ]
-			);
+				$fileTitle->getPrefixedDBkey()
+			)
+				// Set a title to avoid implicit $wgTitle usage
+				->title( $title )
+				// Show in user language. Note that this automatically splits the parser cache per-language.
+				->inLanguage( $options->getUserLangObj() );
 
 			$output->setText(
-				'<p>' .
-					$fileMsg->parse() .
-				'</p>' .
+				$fileMsg->parseAsBlock() .
 				$output->getRawText()
 			);
 		}

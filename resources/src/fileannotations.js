@@ -1,7 +1,7 @@
 ( function ( $, mw, OO ) {
 	var pageAnnotator,
 		pageTitle = mw.Title.newFromText( mw.config.get( 'wgPageName' ) ),
-		isFilePage = pageTitle.getNamespaceId() === 6,
+		isFilePage = pageTitle.getNamespaceId() === mw.config.get( 'wgNamespaceIds' ).file,
 		$fileLink = $( '#file > a' );
 
 	/**
@@ -46,7 +46,7 @@
 
 		config.$container.append( this.$container );
 
-		this.annotationsTitle = mw.Title.newFromText( 'File_Annotations:' + this.fileTitle.getMain() );
+		this.annotationsTitle = mw.Title.newFromText( 'File Annotations:' + this.fileTitle.getMain() );
 
 		this.getAndRenderAnnotations().then( function () {
 			var $body = $( 'body' );
@@ -149,7 +149,7 @@
 			rvprop: 'content',
 			formatversion: 2,
 			format: 'json',
-			titles: this.annotationsTitle.getPrefixedDb()
+			titles: this.annotationsTitle.getPrefixedText()
 		} ).then( function ( data ) {
 			var rv, text, annotations,
 				pages = data.query.pages,
@@ -181,7 +181,7 @@
 	FileAnnotator.prototype.saveAnnotations = function ( annotations, summary ) {
 		return this.api.postWithToken( 'csrf', {
 			action: 'edit',
-			title: this.annotationsTitle.getPrefixedDb(),
+			title: this.annotationsTitle.getPrefixedText(),
 			text: JSON.stringify( annotations ),
 			summary: summary
 		} );
@@ -200,7 +200,7 @@
 				formatversion: 2,
 				format: 'json',
 				prop: [ 'fileannotations', 'imageinfo' ],
-				titles: this.fileTitle.getPrefixedDb(),
+				titles: this.fileTitle.getPrefixedText(),
 				faparse: true,
 				iiprop: 'size'
 			} ).then( function ( data ) {

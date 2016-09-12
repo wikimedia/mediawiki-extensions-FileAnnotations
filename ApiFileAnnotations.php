@@ -132,15 +132,15 @@ class ApiFileAnnotations extends ApiQueryBase {
 					$src = $info['thumburl'];
 
 					$imagesHtml .=
-						'<a class="category-member" href="' . $href . '">' .
-							'<img src="' . $src . '" />' .
+						'<a class="category-member" href="' . htmlspecialchars( $href ) . '">' .
+							'<img src="' . htmlspecialchars( $src ) . '" />' .
 						'</a>';
 				}
 
 				$imagesHtml .= '</div>';
 
 				$seeMoreHtml = $pages
-					? '<a class="commons-see-more" href="' . $href . '"></a>'
+					? '<a class="commons-see-more" href="' . htmlspecialchars( $href ) . '"></a>'
 					: '';
 
 				$html =
@@ -204,14 +204,15 @@ class ApiFileAnnotations extends ApiQueryBase {
 				$page = $pages[0];
 				$html =
 					'<div class="wikipedia-article-annotation">' .
+						// The API result here should be safe HTML
 						$page['extract'] .
 						'<p class="pageimage">' .
 							'<img src="' .
-								$page['thumbnail']['source'] .
+								htmlspecialchars( $page['thumbnail']['source'] ) .
 								'" width="' .
-								$page['thumbnail']['width'] .
+								htmlspecialchars( $page['thumbnail']['width'] ) .
 								'" height="' .
-								$page['thumbnail']['height'] .
+								htmlspecialchars( $page['thumbnail']['height'] ) .
 							'" />' .
 						'</p>' .
 					'</div>';
@@ -292,26 +293,26 @@ class ApiFileAnnotations extends ApiQueryBase {
 				if ( isset( $labels[$currentLang] ) ) {
 					$label =
 						'<h2 class="wikidata-label">' .
-							$labels[$currentLang]['value'] .
+							htmlspecialchars( $labels[$currentLang]['value'] ) .
 						'</h2>';
 				} elseif ( isset( $labels['en'] ) ) {
 					// Blatantly strange fallback, but we don't want to have
 					// no label...hopefully this works for 99% of things.
 					$label =
 						'<h2 class="wikidata-label">' .
-							$labels['en']['value'] .
+							htmlspecialchars( $labels['en']['value'] ) .
 						'</h2>';
 				}
 
 				if ( isset( $descriptions[$currentLang] ) ) {
 					$description =
 						'<p class="wikidata-description">' .
-							$descriptions[$currentLang]['value'] .
+							htmlspecialchars( $descriptions[$currentLang]['value'] ) .
 						'</p>';
 				} elseif ( isset( $descriptions['en'] ) ) {
 					$description =
 						'<p class="wikidata-description">' .
-							$descriptions['en']['value'] .
+							htmlspecialchars( $descriptions['en']['value'] ) .
 						'</p>';
 				}
 
@@ -370,8 +371,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 		$info = $page['imageinfo'][0];
 		return
 			'<div class="wikidata-image">' .
-				'<a class="commons-image" href="' . $info['descriptionurl'] . '">' .
-					'<img src="' . $info['thumburl'] . '" />' .
+				'<a class="commons-image" href="' . htmlspecialchars( $info['descriptionurl'] ) . '">' .
+					'<img src="' . htmlspecialchars( $info['thumburl'] ) . '" />' .
 				'</a>' .
 			'</div>';
 	}
@@ -381,15 +382,18 @@ class ApiFileAnnotations extends ApiQueryBase {
 		$parsed = $presult->mText;
 
 		// Check to see if we can return a special display for this annotation.
+		// We can't just the $text against the regexes, since the link might be generated from a
+		// wikitext link like [[commons:Foo]] or a template.
 		$dom = new DOMDocument();
-		$domFragment = $dom->createDocumentFragment();
-		$domFragment->appendXml( $presult->mText );
+		$dom->loadXML( '<root>' . $presult->mText . '</root>' );
 
-		// The first element will always be a paragraph. Get its first child.
-		$possibleLink = $domFragment->firstChild->firstChild;
+		$xpath = new DOMXPath( $dom );
+		// If the output is just a single link `<a>` wrapped in a single paragraph `<p>`, optionally
+		// with some whitespace around it, do something special.
+		$matches = $xpath->query( '//root[count(*)=1]/p[count(*)=1][normalize-space(text())=""]/a' );
+		$possibleLink = $matches->item( 0 );
 
-		// Check if it's a link element.
-		if ( $possibleLink->nodeType === XML_ELEMENT_NODE && $possibleLink->nodeName === 'a' ) {
+		if ( $possibleLink ) {
 			// Find out if the link is something we care about
 			/** @noinspection PhpUndefinedFieldInspection */
 			$href = $possibleLink->attributes->getNamedItem( 'href' )->value;
