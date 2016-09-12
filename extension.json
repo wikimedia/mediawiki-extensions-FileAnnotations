@@ -10,13 +10,13 @@
 	"type": "other",
 	"namespaces": [
 		{
-			"name": "File_Annotations",
+			"name": "File_annotations",
 			"id": 492,
 			"constant": "NS_FILE_ANNOTATIONS",
 			"defaultcontentmodel": "FileAnnotations"
 		},
 		{
-			"name": "File_Annotations_Talk",
+			"name": "File_annotations_talk",
 			"id": 493,
 			"constant": "NS_FILE_ANNOTATIONS_TALK"
 		}

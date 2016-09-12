@@ -46,7 +46,7 @@
 
 		config.$container.append( this.$container );
 
-		this.annotationsTitle = mw.Title.newFromText( 'File Annotations:' + this.fileTitle.getMain() );
+		this.annotationsTitle = mw.Title.newFromText( 'File annotations:' + this.fileTitle.getMain() );
 
 		this.getAndRenderAnnotations().then( function () {
 			var $body = $( 'body' );
