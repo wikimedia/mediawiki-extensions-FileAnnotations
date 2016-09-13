@@ -36,9 +36,15 @@ class FileAnnotationsContent extends JsonContent {
 
 		$arrayAnnotations = (array) $annotations;
 
-		foreach ( $arrayAnnotations['annotations'] as $i => $annotation ) {
-			$arrayAnnotations['annotations'][$i] = (array) $annotation;
+		$allAnnotations = isset( $arrayAnnotations['annotations'] )
+			? $arrayAnnotations['annotations']
+			: [];
+
+		foreach ( $allAnnotations as $i => $annotation ) {
+			$allAnnotations[$i] = (array) $annotation;
 		}
+
+		$arrayAnnotations['annotations'] = $allAnnotations;
 
 		return EventLogging::schemaValidate( $arrayAnnotations, $schema );
 	}

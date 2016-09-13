@@ -138,9 +138,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 				$imagesHtml .= '</div>';
 
-				// @FIXME: i18n!
 				$seeMoreHtml = $pages
-					? '<a href="' . $href . '">' . 'See more images' . '</a>'
+					? '<a class="commons-see-more" href="' . $href . '"></a>'
 					: '';
 
 				$html =

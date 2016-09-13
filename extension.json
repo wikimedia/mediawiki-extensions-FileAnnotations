@@ -62,7 +62,8 @@
 				"save-fileannotation",
 				"cancel-fileannotation",
 				"edit-fileannotation",
-				"delete-fileannotation"
+				"delete-fileannotation",
+				"fileannotations-commons-see-more"
 			]
 		}
 	},

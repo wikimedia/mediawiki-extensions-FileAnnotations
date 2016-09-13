@@ -10,5 +10,6 @@
 	"cancel-fileannotation": "Text of a button that cancels creating or editing an annotation.",
 	"edit-fileannotation": "Text of a button to begin editing an annotation.",
 	"delete-fileannotation": "Text of a button to delete an annotation.",
+	"fileannotations-commons-see-more": "Shown on an annotation that is a Commons category, allows the user to go to the category page to see more images.",
 	"fileannotations-go-to-filepage": "Appears on the file annotations page to encourage users to go to the file page to interact with the content. $1 is the file page title, including namespace, suitable for inclusion in a wikilink. The message will be parsed. Remember to put a colon (:) in front of the file page title, or the message will put the whole image into the page."
 }

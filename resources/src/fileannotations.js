@@ -386,6 +386,9 @@
 			$annotation
 		);
 
+		$( '.commons-category-annotation .commons-see-more' )
+			.msg( 'fileannotations-commons-see-more' );
+
 		if ( this.editing ) {
 			editButton = new OO.ui.ButtonWidget( {
 				label: mw.message( 'edit-fileannotation' ).text(),
