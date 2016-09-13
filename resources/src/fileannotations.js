@@ -60,8 +60,7 @@
 
 		if ( this.editing ) {
 			this.getAnnotationsHTML().then( function ( data ) {
-				var pageId = data.query.pageids[ 0 ],
-					page = data.query.pages[ pageId ],
+				var page = data.query.pages[ 0 ],
 					imageInfo = page.imageinfo[ 0 ],
 					fullw = imageInfo.width,
 					fullh = imageInfo.height,
@@ -146,18 +145,18 @@
 			action: 'query',
 			prop: 'revisions',
 			rvprop: 'content',
-			indexpageids: true,
+			formatversion: 2,
+			format: 'json',
 			titles: this.annotationsTitle.getPrefixedDb()
 		} ).then( function ( data ) {
 			var rv, text, annotations,
 				pages = data.query.pages,
-				pageid = data.query.pageids[ 0 ],
-				page = pages[ pageid ],
+				page = pages[ 0 ],
 				revisions = page.revisions;
 
 			if ( revisions ) {
 				rv = revisions[ 0 ];
-				text = rv[ '*' ];
+				text = rv.content;
 				annotations = JSON.parse( text );
 			} else {
 				// Fake it, give the rest of the code an empty list
@@ -196,7 +195,8 @@
 		if ( this.annotationsCache === undefined ) {
 			this.annotationsCache = this.api.get( {
 				action: 'query',
-				indexpageids: true,
+				formatversion: 2,
+				format: 'json',
 				prop: [ 'fileannotations', 'imageinfo' ],
 				titles: this.fileTitle.getPrefixedDb(),
 				faparse: true,
@@ -482,8 +482,7 @@
 		return this.getAnnotationsHTML( this.fileTitle )
 			.then( function ( data ) {
 				var i,
-					pageId = data.query.pageids[ 0 ],
-					page = data.query.pages[ pageId ],
+					page = data.query.pages[ 0 ],
 					imageInfo = page.imageinfo[ 0 ],
 					annotations = page.fileannotations[ 0 ],
 					fullw = imageInfo.width,

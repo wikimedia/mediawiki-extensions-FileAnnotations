@@ -109,6 +109,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 						'iiprop' => 'url',
 						'iiurlwidth' => 100,
 						'iiurlheight' => 100,
+						'formatversion' => 2,
 						'format' => 'json',
 					],
 				] );
@@ -125,7 +126,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 				$imagesHtml = '<div class="category-members">';
 
 				$href = null;
-				foreach ( $pages as $id => $page ) {
+				foreach ( $pages as $page ) {
 					$info = $page['imageinfo'][0];
 					$href = $info['descriptionurl'];
 					$src = $info['thumburl'];
@@ -186,6 +187,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 						'piprop' => 'thumbnail|name',
 						'pithumbsize' => 250,
 						'exsentences' => 4,
+						'formatversion' => 2,
 						'format' => 'json',
 					],
 				] );
@@ -199,8 +201,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 					$ttl = $cache::TTL_UNCACHEABLE;
 				}
 
-				$page = reset( $pages );
-				// There's only one page, so just do it here
+				$page = $pages[0];
 				$html =
 					'<div class="wikipedia-article-annotation">' .
 						$page['extract'] .
@@ -251,6 +252,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 						'ids' => $entityId,
 						'languages' => 'en|' . $currentLang,
 						'props' => 'labels|descriptions|claims',
+						'formatversion' => 2,
 						'format' => 'json',
 					],
 				] );
@@ -353,6 +355,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 				'iiprop' => 'url',
 				'iiurlwidth' => 200,
 				'iiurlheight' => 200,
+				'formatversion' => 2,
 				'format' => 'json',
 			]
 		] );
@@ -362,7 +365,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 		$pages = $imageApiData['query']['pages'];
 		$imageLink = null;
 
-		$page = reset( $pages );
+		$page = $pages[0];
 		// There's only one page. Add HTML here.
 		$info = $page['imageinfo'][0];
 		return
