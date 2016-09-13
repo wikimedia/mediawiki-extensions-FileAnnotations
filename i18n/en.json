@@ -3,13 +3,13 @@
 		"authors": []
 	},
 	"fileannotations-desc": "Displays and edits annotations on file pages.",
-	"file-has-annotations": "There are annotations on this file. Mouse over the image to view them.",
+	"fileannotations-file-has-annotations": "There are annotations on this file. Mouse over the image to view them.",
 	"fileannotations-tab": "Annotations",
-	"fileannotation-create": "Add file annotation",
-	"save-fileannotation": "Save",
-	"cancel-fileannotation": "Cancel",
-	"edit-fileannotation": "Edit",
-	"delete-fileannotation": "Delete",
+	"fileannotations-create": "Add file annotation",
+	"fileannotations-save": "Save",
+	"fileannotations-cancel": "Cancel",
+	"fileannotations-edit": "Edit",
+	"fileannotations-delete": "Delete",
 
 	"fileannotations-commons-see-more": "See more images",
 

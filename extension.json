@@ -57,12 +57,12 @@
 			],
 
 			"messages": [
-				"fileannotation-create",
-				"file-has-annotations",
-				"save-fileannotation",
-				"cancel-fileannotation",
-				"edit-fileannotation",
-				"delete-fileannotation",
+				"fileannotations-create",
+				"fileannotations-file-has-annotations",
+				"fileannotations-save",
+				"fileannotations-cancel",
+				"fileannotations-edit",
+				"fileannotations-delete",
 				"fileannotations-commons-see-more"
 			]
 		}

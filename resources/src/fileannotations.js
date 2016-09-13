@@ -71,7 +71,7 @@
 
 				// Make it possible to create new annotations graphically.
 				createButton = new OO.ui.ButtonWidget( {
-					label: mw.message( 'fileannotation-create' ).text(),
+					label: mw.message( 'fileannotations-create' ).text(),
 					icon: 'add',
 					flags: [ 'constructive' ]
 				} );
@@ -228,12 +228,12 @@
 				multiline: true
 			} ),
 			annotationSave = new OO.ui.ButtonWidget( {
-				label: mw.message( 'save-fileannotation' ).text(),
+				label: mw.message( 'fileannotations-save' ).text(),
 				icon: 'check',
 				flags: [ 'constructive', 'primary' ]
 			} ),
 			annotationCancel = new OO.ui.ButtonWidget( {
-				label: mw.message( 'cancel-fileannotation' ).text(),
+				label: mw.message( 'fileannotations-cancel' ).text(),
 				icon: 'cancel',
 				flags: [ 'safe' ]
 			} ),
@@ -391,12 +391,12 @@
 
 		if ( this.editing ) {
 			editButton = new OO.ui.ButtonWidget( {
-				label: mw.message( 'edit-fileannotation' ).text(),
+				label: mw.message( 'fileannotations-edit' ).text(),
 				flags: [ 'progressive' ]
 			} );
 
 			deleteButton = new OO.ui.ButtonWidget( {
-				label: mw.message( 'delete-fileannotation' ).text(),
+				label: mw.message( 'fileannotations-delete' ).text(),
 				flags: [ 'destructive' ]
 			} );
 
