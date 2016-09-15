@@ -15,12 +15,12 @@
 	 * @cfg {boolean} [editing] Whether to enable editing annotations.
 	 */
 	function FileAnnotator( config ) {
-		var offset, $annotationInfo, createButton,
+		var $annotationInfo, createButton,
 			annotator = this;
 
 		this.api = new mw.Api();
 
-		this.$fileLink = config.$container;
+		this.$fileLink = config.$infoContainer;
 		this.fileTitle = config.title;
 		this.$img = this.$fileLink.find( 'img' );
 		this.editing = !!config.editing;
@@ -33,16 +33,18 @@
 		this.$container = $( '<div>' )
 			.addClass( 'annotation-wrapper' );
 
-		offset = this.$img.offset();
-
 		this.$container.css( {
-			top: offset.top,
-			left: offset.left,
+			top: 0,
+			left: 0,
 			width: this.$img.width(),
 			height: this.$img.height()
 		} );
 
-		$( 'body' ).append( this.$container );
+		config.$container.css( {
+			position: 'relative'
+		} );
+
+		config.$container.append( this.$container );
 
 		this.annotationsTitle = mw.Title.newFromText( 'File_Annotations:' + this.fileTitle.getMain() );
 
@@ -538,7 +540,8 @@
 		// This is a file page, so just dump the main image into the
 		// annotator class, with editing and a notification below the image.
 		pageAnnotator = new FileAnnotator( {
-			$container: $fileLink,
+			$container: $( '#file' ),
+			$infoContainer: $fileLink,
 			title: pageTitle,
 			editing: true
 		} );
@@ -550,10 +553,19 @@
 			$div.find( 'a.image' ).each( function () {
 				var thumbAnnotator,
 					$link = $( this ),
-					$img = $link.find( 'img' );
+					$img = $link.find( 'img' ),
+					$container = $( '<div>' )
+						.addClass( 'fileannotations-standin-container' )
+						.css( {
+							display: 'inline-block'
+						} );
+
+				$link.after( $container );
+				$container.append( $link );
 
 				thumbAnnotator = new FileAnnotator( {
-					$container: $link,
+					$container: $container,
+					$infoContainer: $link,
 					title: mw.Title.newFromImg( $img ),
 					editing: false
 				} );
