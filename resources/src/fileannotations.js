@@ -2,7 +2,7 @@
 	var pageAnnotator,
 		pageTitle = mw.Title.newFromText( mw.config.get( 'wgPageName' ) ),
 		isFilePage = pageTitle.getNamespaceId() === 6,
-		$fileLink = $( '#file a' );
+		$fileLink = $( '#file > a' );
 
 	/**
 	 * Class for rendering, editing, creating and deleting annotations on a file.
