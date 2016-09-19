@@ -1,14 +1,16 @@
 {
 	"@metadata": {
-		"authors": []
+		"authors": [
+			"Robby"
+		]
 	},
 	"fileannotations-desc": "{{desc|name=FileAnnotations|url=https://www.mediawiki.org/wiki/Extension:FileAnnotations}}",
 	"fileannotations-tab": "Text for a tab that links to the file annotations page from the file page.",
 	"fileannotations-create": "Text of a button to create a new annotation on a file.",
-	"fileannotations-save": "Text of a button to save a new or edited annotation.",
-	"fileannotations-cancel": "Text of a button that cancels creating or editing an annotation.",
-	"fileannotations-edit": "Text of a button to begin editing an annotation.",
-	"fileannotations-delete": "Text of a button to delete an annotation.",
+	"fileannotations-save": "Text of a button to save a new or edited annotation.\n{{Identical|Save}}",
+	"fileannotations-cancel": "Text of a button that cancels creating or editing an annotation.\n{{Identical|Cancel}}",
+	"fileannotations-edit": "Text of a button to begin editing an annotation.\n{{Identical|Edit}}",
+	"fileannotations-delete": "Text of a button to delete an annotation.\n{{Identical|Delete}}",
 	"fileannotations-commons-see-more": "Shown on an annotation that is a Commons category, allows the user to go to the category page to see more images.",
 	"fileannotations-go-to-filepage": "Appears on the file annotations page to encourage users to go to the file page to interact with the content. $1 is the file page title, including namespace, suitable for inclusion in a wikilink. The message will be parsed. Remember to put a colon (:) in front of the file page title, or the message will put the whole image into the page.",
 	"apihelp-query+fileannotations-description": "{{doc-apihelp-description|query+fileannotations}}",

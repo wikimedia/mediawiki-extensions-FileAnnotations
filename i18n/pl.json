@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Chrumps"
+		]
+	},
+	"fileannotations-tab": "Adnotacje",
+	"fileannotations-save": "Zapisz",
+	"fileannotations-cancel": "Anuluj",
+	"fileannotations-edit": "Edytuj",
+	"fileannotations-delete": "Usuń"
+}
