@@ -43,8 +43,17 @@
 			"scripts": [
 				"resources/src/fileannotations.js"
 			],
+			"dependencies": [
+				"mediawiki.Title",
+				"ext.fileannotations.FileAnnotator"
+			]
+		},
+		"ext.fileannotations.FileAnnotator": {
+			"scripts": [
+				"resources/src/FileAnnotator.js"
+			],
 			"styles": [
-				"resources/src/fileannotations.less"
+				"resources/src/FileAnnotator.less"
 			],
 			"dependencies": [
 				"mediawiki.Title",
