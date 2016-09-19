@@ -150,11 +150,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 					'</div>';
 
 				$setOpts['staleTTL'] = self::MAX_CACHE_TTL;
-				if ( self::maybePurge( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) ) {
-					$ttl = $cache::TTL_UNCACHEABLE; // don't bother; tombstoned by delete()
-				} else {
-					$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
-				}
+				self::purgeIfOutdated( $safeAsOf, $oldValue, $html, $cache, $cacheKey );
+				$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
 
 				return $html;
 			},
@@ -218,11 +215,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 					'</div>';
 
 				$setOpts['staleTTL'] = self::MAX_CACHE_TTL;
-				if ( self::maybePurge( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) ) {
-					$ttl = $cache::TTL_UNCACHEABLE; // don't bother; tombstoned by delete()
-				} else {
-					$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
-				}
+				self::purgeIfOutdated( $safeAsOf, $oldValue, $html, $cache, $cacheKey );
+				$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
 
 				return $html;
 			},
@@ -331,11 +325,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 				}
 
 				$setOpts['staleTTL'] = self::MAX_CACHE_TTL;
-				if ( self::maybePurge( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) ) {
-					$ttl = $cache::TTL_UNCACHEABLE; // don't bother; tombstoned by delete()
-				} else {
-					$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
-				}
+				self::purgeIfOutdated( $safeAsOf, $oldValue, $html, $cache, $cacheKey );
+				$ttl = self::elasticCacheTTL( $oldValue, $html, $oldAsOf, $ttl );
 
 				return $html;
 			},
@@ -501,7 +492,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 	 * @param string $cacheKey
 	 * @return bool Whether key was purged
 	 */
-	private static function maybePurge( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) {
+	private static function purgeIfOutdated( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) {
 		if ( $safeAsOf && $oldValue !== false && $oldValue !== $html ) {
 			// User possibly expecting to see the new value and it does not match.
 			// Delete the key from all datacenters and yeild the new value.
