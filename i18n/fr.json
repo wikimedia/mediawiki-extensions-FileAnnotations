@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Gomoko",
+			"Trial"
+		]
+	},
+	"fileannotations-desc": "Affiche et modifie les annotations sur les pages de fichier.",
+	"fileannotations-tab": "Annotations",
+	"fileannotations-create": "Ajouter une annotation de fichier",
+	"fileannotations-save": "Enregistrer",
+	"fileannotations-cancel": "Annuler",
+	"fileannotations-edit": "Modifier",
+	"fileannotations-delete": "Supprimer",
+	"fileannotations-commons-see-more": "Voir plus d’images",
+	"fileannotations-go-to-filepage": "Il est recommandé de consulter et modifier les annotations de fichier sur [[:$1|la page du fichier]], où elles sont disponibles dans un format visuel.",
+	"apihelp-query+fileannotations-description": "Récupérer le wikitexte et, éventuellement, le HTML pour les annotations sur un fichier du wiki.",
+	"apihelp-query+fileannotations-param-parse": "S’il faut récupérer les annotations analysées. Peut prendre plus de temps avec des annotations nombreuses, grosses ou complexes."
+}

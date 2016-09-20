@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Liuxinyu970226"
+		]
+	},
+	"fileannotations-desc": "在文件页面显示并编辑注释。",
+	"fileannotations-tab": "注释",
+	"fileannotations-create": "添加文件注释",
+	"fileannotations-save": "保存",
+	"fileannotations-cancel": "取消",
+	"fileannotations-edit": "编辑",
+	"fileannotations-delete": "删除",
+	"fileannotations-commons-see-more": "查看更多图片",
+	"fileannotations-go-to-filepage": "建议您在[[:$1|文件页面]]查看并编辑文件注释，这可在视觉格式中可用。",
+	"apihelp-query+fileannotations-description": "取得在wiki上某文件注释的wiki文本和可选HTML。",
+	"apihelp-query+fileannotations-param-parse": "是否取得解析的注释。对于很多、很大或复杂的注释，这需要很长时间。"
+}

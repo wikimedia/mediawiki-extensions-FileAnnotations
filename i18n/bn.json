@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aftabuzzaman"
+		]
+	},
+	"fileannotations-desc": "ফাইলের পাতায় টীকা প্রদর্শন ও সম্পাদনা করে।",
+	"fileannotations-tab": "টীকা রচনা",
+	"fileannotations-create": "ফাইলে টীকা যোগ করুন",
+	"fileannotations-save": "সংরক্ষণ",
+	"fileannotations-cancel": "বাতিল",
+	"fileannotations-edit": "সম্পাদনা",
+	"fileannotations-delete": "অপসারণ",
+	"fileannotations-commons-see-more": "আরও চিত্র দেখুন"
+}
