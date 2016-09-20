@@ -29,6 +29,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 	const MIN_CACHE_TTL = WANObjectCache::TTL_MINUTE;
 	const MAX_CACHE_TTL = WANObjectCache::TTL_DAY;
 
+	const LONG_CACHE_TTL = WANObjectCache::TTL_MONTH;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'fa' );
 	}
@@ -224,6 +226,51 @@ class ApiFileAnnotations extends ApiQueryBase {
 		);
 	}
 
+	protected function getWikidataImageProps() {
+		$cache = ObjectCache::getMainWANInstance();
+		$cacheKey = $cache->makeKey( 'fileannotations', 'wikidataimageprops' );
+
+		return $cache->getWithSetCallback(
+			$cacheKey,
+			self::LONG_CACHE_TTL,
+			function ( $oldValue, &$ttl, array &$setOpts, $oldAsOf )
+			use ( $cache ) {
+				$client = new MultiHttpClient( [] );
+
+				$response = $client->run( [
+					'method' => 'GET',
+					'url' => 'https://query.wikidata.org/sparql',
+					'query' => [
+						'format' => 'json',
+						'query' => 'select ?prop where{?prop wdt:P31 wd:Q26940804.}',
+					],
+				] );
+
+				if ( $response['code'] == 200 ) {
+					$propsData = json_decode( $response['body'], true );
+					$props = $propsData['results']['bindings'];
+					$propArr = [];
+
+					foreach ( $props as $prop ) {
+						$uri = $prop['prop']['value'];
+						$propMatches = [];
+						$propMatch = preg_match(
+							'%P\d+%',
+							$uri,
+							$propMatches
+						);
+						$propArr[] = $propMatches[0];
+					}
+
+					return $propArr;
+				}
+
+				$ttl = $cache::TTL_UNCACHEABLE;
+				return [];
+			}
+		);
+	}
+
 	protected function renderWikidataAnnotation( $wdMatches ) {
 		$entityId = $wdMatches[2];
 		$currentLang = $this->getLanguage()->getCode();
@@ -267,17 +314,26 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 				$imageHtml = null;
 
-				foreach ( $claims as $claimid => $claim ) {
-					switch ( $claimid ) {
-						case 'P18':
-							// Main image. Fetch imageinfo and render.
-							$imageHtml = $this->renderWdImage(
-								$claim[0]['mainsnak']['datavalue']['value']
-							);
-							break;
+				$imageProps = $this->getWikidataImageProps();
 
-						default:
-							continue;
+				$imagePropPreference = array_merge( [
+					'P18', // image
+					'P41', // flag image
+					'P158', // seal image
+					'P94', // coat of arms image
+					'P154', // logo image
+					'P2716', // collage image
+					'P2713', // sectional view
+					'P2910', // icon
+					'P15', // route map
+				], $imageProps );
+
+				foreach ( $imagePropPreference as $prop ) {
+					if ( isset( $claims[$prop] ) ) {
+						$imageHtml = $this->renderWdImage(
+							$claims[$prop][0]['mainsnak']['datavalue']['value']
+						);
+						break;
 					}
 				}
 
