@@ -33,7 +33,9 @@
 			// For a new annotation, the box is the container.
 			$contain = $box;
 
-			config.$container.append( $box );
+			if ( config.$container ) {
+				config.$container.append( $box );
+			}
 		}
 
 		this.$box = $box;

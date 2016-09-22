@@ -45,7 +45,7 @@
 
 		this.editing = config.editing;
 
-		if ( this.text && this.parsed ) {
+		if ( this.text !== undefined && this.parsed !== undefined ) {
 			this.$annotation = $( '<div>' )
 				.addClass( 'file-annotation' )
 				.append( this.parsed );
