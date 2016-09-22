@@ -5,8 +5,10 @@
 		]
 	},
 	"fileannotations-tab": "Adnotacje",
+	"fileannotations-create": "Dodaj komentarz do pliku",
 	"fileannotations-save": "Zapisz",
 	"fileannotations-cancel": "Anuluj",
 	"fileannotations-edit": "Edytuj",
-	"fileannotations-delete": "Usuń"
+	"fileannotations-delete": "Usuń",
+	"fileannotations-commons-see-more": "Zobacz więcej ilustracji"
 }

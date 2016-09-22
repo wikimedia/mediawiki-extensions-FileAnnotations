@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Туллук"
+		]
+	},
+	"fileannotations-desc": "файлар сирэйдэригэр баар быһаарыылары көрдөрөр уонна уларытар",
+	"fileannotations-create": "Быһаарыын паайылын эп",
+	"fileannotations-save": "Бигэргэт",
+	"fileannotations-cancel": "Тохтот",
+	"fileannotations-edit": "Уларыт"
+}

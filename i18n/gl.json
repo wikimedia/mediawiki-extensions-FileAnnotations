@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Elisardojm"
+		]
+	},
+	"fileannotations-desc": "Mostra e edita as anotacións nas páxinas de ficheiro.",
+	"fileannotations-tab": "Anotacións",
+	"fileannotations-create": "Engadir anotación de ficheiro",
+	"fileannotations-save": "Gardar",
+	"fileannotations-cancel": "Cancelar",
+	"fileannotations-edit": "Editar",
+	"fileannotations-delete": "Borrar",
+	"fileannotations-commons-see-more": "Ver máis imaxes",
+	"fileannotations-go-to-filepage": "Recoméndase ver e editar anotacións de ficheiro [[:$1|na páxina do ficheiro]], onde están dispoñibles nun formato visual.",
+	"apihelp-query+fileannotations-description": "Obter wikitexto e, opcionalmente, HTML para as anotacións nun ficheiro no wiki.",
+	"apihelp-query+fileannotations-param-parse": "Obter o non as anotacións analizadas. Podería levar máis tempo con anotacións múltiples, grandes ou complexas."
+}

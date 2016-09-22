@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eitvys200"
+		]
+	},
+	"fileannotations-desc": "Rodo ir redaguoja anotacijas failų puslapiuose.",
+	"fileannotations-tab": "Anotacijos",
+	"fileannotations-create": "Pridėti failo anotaciją",
+	"fileannotations-save": "Išsaugoti",
+	"fileannotations-cancel": "Atšaukti",
+	"fileannotations-edit": "Redaguoti",
+	"fileannotations-delete": "Ištrinti",
+	"fileannotations-commons-see-more": "Peržiūrėti daugiau paveikslėlių"
+}

@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Туллук"
+		]
+	},
+	"fileannotations-desc": "Отображает и редактирует Примечания на страницах файлов.",
+	"fileannotations-tab": "Аннотация",
+	"fileannotations-create": "Добавить файл аннотации",
+	"fileannotations-save": "Сохранить",
+	"fileannotations-cancel": "Отмена",
+	"fileannotations-edit": "Править",
+	"fileannotations-delete": "Удалить",
+	"fileannotations-commons-see-more": "Увидеть больше изображений",
+	"fileannotations-go-to-filepage": "Рекомендуется просматривать и редактировать файл заметок на [[:$1|файл подкачки]], где они доступны в визуальном формате.",
+	"apihelp-query+fileannotations-description": "Получить викитекст и дополнительные HTML для аннотирования файла в Вики.",
+	"apihelp-query+fileannotations-param-parse": "Если ли вы хотите получиать проанализированные комментарии, вы можете начать с длинных или сложных текстов"
+}
