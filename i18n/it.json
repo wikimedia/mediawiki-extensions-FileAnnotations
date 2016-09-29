@@ -1,10 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Beta16"
+			"Beta16",
+			"Anto"
 		]
 	},
 	"fileannotations-tab": "Annotazioni",
+	"fileannotations-create": "Aggiungi file di annotazione",
 	"fileannotations-save": "Salva",
 	"fileannotations-cancel": "Annulla",
 	"fileannotations-edit": "Modifica",
