@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"Liuxinyu970226"
 		]
 	},
 	"fileannotations-desc": "{{desc|name=FileAnnotations|url=https://www.mediawiki.org/wiki/Extension:FileAnnotations}}",
-	"fileannotations-tab": "Text for a tab that links to the file annotations page from the file page.",
+	"fileannotations-tab": "Text for a tab that links to the file annotations page from the file page.\n{{Identical|Annotation}}",
 	"fileannotations-create": "Text of a button to create a new annotation on a file.",
 	"fileannotations-save": "Text of a button to save a new or edited annotation.\n{{Identical|Save}}",
 	"fileannotations-cancel": "Text of a button that cancels creating or editing an annotation.\n{{Identical|Cancel}}",

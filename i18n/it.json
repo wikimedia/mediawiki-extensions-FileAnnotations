@@ -5,11 +5,13 @@
 			"Anto"
 		]
 	},
+	"fileannotations-desc": "Visualizza e modifica annotazioni nelle pagine dei file.",
 	"fileannotations-tab": "Annotazioni",
-	"fileannotations-create": "Aggiungi file di annotazione",
+	"fileannotations-create": "Aggiungi annotazione al file",
 	"fileannotations-save": "Salva",
 	"fileannotations-cancel": "Annulla",
 	"fileannotations-edit": "Modifica",
 	"fileannotations-delete": "Cancella",
-	"fileannotations-commons-see-more": "Vedi più immagini"
+	"fileannotations-commons-see-more": "Vedi più immagini",
+	"apihelp-query+fileannotations-description": "Recupera wikitesto e, facoltativamente, HTML per le annotazioni in un file nel wiki."
 }

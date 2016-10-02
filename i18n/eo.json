@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Robin van der Vliet"
+		]
+	},
+	"fileannotations-save": "Konservi",
+	"fileannotations-cancel": "Nuligi",
+	"fileannotations-edit": "Redakti",
+	"fileannotations-delete": "Forigi"
+}
