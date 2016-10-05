@@ -4,10 +4,13 @@
 			"Vitorvicentevalente"
 		]
 	},
+	"fileannotations-desc": "Exibe e edita as anotações em páginas de ficheiros.",
 	"fileannotations-tab": "Anotações",
+	"fileannotations-create": "Adicionar anotação ao ficheiro",
 	"fileannotations-save": "Gravar",
 	"fileannotations-cancel": "Cancelar",
 	"fileannotations-edit": "Editar",
 	"fileannotations-delete": "Apagar",
-	"fileannotations-commons-see-more": "Ver mais imagens"
+	"fileannotations-commons-see-more": "Ver mais imagens",
+	"fileannotations-go-to-filepage": "É recomendável visualizar e editar as anotações do ficheiro [[:$1|na respetiva página]], onde estão disponíveis num formato visual."
 }

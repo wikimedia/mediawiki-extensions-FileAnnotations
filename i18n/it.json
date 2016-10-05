@@ -14,6 +14,6 @@
 	"fileannotations-edit": "Modifica",
 	"fileannotations-delete": "Cancella",
 	"fileannotations-commons-see-more": "Vedi più immagini",
-	"fileannotations-go-to-filepage": "Si consiglia di visualizzare e modificare le annotazione dei file sul [[:$1|file di pagina]], dove sono disponibili in un formato visivo.",
+	"fileannotations-go-to-filepage": "Si consiglia di visualizzare e modificare le annotazione dei file sulla [[:$1|pagina del file]], dove sono disponibili in un formato visivo.",
 	"apihelp-query+fileannotations-description": "Recupera wikitesto e, facoltativamente, HTML per le annotazioni in un file nel wiki."
 }
