@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Туллук"
+			"Туллук",
+			"HalanTul"
 		]
 	},
-	"fileannotations-desc": "билэлэр сирэйдэригэр баар быһаарыылары көрдөрөр уонна уларытар",
-	"fileannotations-create": "Быһаарыын билэтин эп",
+	"fileannotations-desc": "Билэлэр сирэйдэригэр баар быһаарыылары көрдөрөр уонна уларытар.",
+	"fileannotations-create": "Быһаарыыҥ билэтин эп",
 	"fileannotations-save": "Бигэргэт",
 	"fileannotations-cancel": "Тохтот",
 	"fileannotations-edit": "Уларыт"
