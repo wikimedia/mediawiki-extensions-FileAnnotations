@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Vitorvicentevalente"
+			"Vitorvicentevalente",
+			"Hamilton Abreu"
 		]
 	},
 	"fileannotations-desc": "Exibe e edita as anotações em páginas de ficheiros.",
@@ -12,5 +13,7 @@
 	"fileannotations-edit": "Editar",
 	"fileannotations-delete": "Apagar",
 	"fileannotations-commons-see-more": "Ver mais imagens",
-	"fileannotations-go-to-filepage": "É recomendável visualizar e editar as anotações do ficheiro [[:$1|na respetiva página]], onde estão disponíveis num formato visual."
+	"fileannotations-go-to-filepage": "É recomendável visualizar e editar as anotações do ficheiro [[:$1|na respetiva página]], onde estão disponíveis num formato visual.",
+	"apihelp-query+fileannotations-description": "Obter a notação wiki e, opcionalmente, o HTML para as anotações num ficheiro da wiki.",
+	"apihelp-query+fileannotations-param-parse": "Obter, ou não, as anotações analisadas. Pode demorar mais tempo se as anotações forem muitas, compridas ou complexas."
 }
