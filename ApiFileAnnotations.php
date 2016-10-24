@@ -432,7 +432,9 @@ class ApiFileAnnotations extends ApiQueryBase {
 		// We can't just the $text against the regexes, since the link might be generated from a
 		// wikitext link like [[commons:Foo]] or a template.
 		$dom = new DOMDocument();
+		$oldValue = libxml_disable_entity_loader( true );
 		$dom->loadXML( '<root>' . $presult->mText . '</root>' );
+		libxml_disable_entity_loader( $oldValue );
 
 		$xpath = new DOMXPath( $dom );
 		// If the output is just a single link `<a>` wrapped in a single paragraph `<p>`, optionally
