@@ -391,21 +391,21 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 			$commonsMatches = [];
 			$commonsCategoryMatch = preg_match(
-				'%^https?://commons.wikimedia.org.*(Category:.*)%',
+				'%^https?://commons\.wikimedia\.org.*(Category:.*)%',
 				$href,
 				$commonsMatches
 			);
 
 			$wpMatches = [];
 			$wpArticleMatch = preg_match(
-				'%^(https?://.*.wikipedia.org)/wiki/(.*)%',
+				'%^(https?://[a-zA-Z\-]+\.wikipedia\.org)/wiki/(.*)%',
 				$href,
 				$wpMatches
 			);
 
 			$wdMatches = [];
 			$wdEntityMatch = preg_match(
-				'%https?://(www\.)?wikidata.org/.*(Q\d+)%',
+				'%https?://(www\.)?wikidata\.org/.*(Q\d+)%',
 				$href,
 				$wdMatches
 			);
