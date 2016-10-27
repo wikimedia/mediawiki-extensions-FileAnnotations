@@ -36,7 +36,8 @@
 	},
 	"Hooks": {
 		"BeforePageDisplay": "FileAnnotationsHooks::onBeforePageDisplay",
-		"SkinTemplateNavigation": "FileAnnotationsHooks::onSkinTemplateNavigation"
+		"SkinTemplateNavigation": "FileAnnotationsHooks::onSkinTemplateNavigation",
+		"CodeEditorGetPageLanguage": "FileAnnotationsHooks::getCodeLanguage"
 	},
 	"ResourceModules": {
 		"ext.fileannotations": {
