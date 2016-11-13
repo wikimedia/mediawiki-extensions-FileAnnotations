@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Piramidion"
+		]
+	},
+	"fileannotations-desc": "Відтворює і редагує анотації на сторінках файлів.",
+	"fileannotations-tab": "Анотації",
+	"fileannotations-create": "Додати анотацію файлу",
+	"fileannotations-save": "Зберегти",
+	"fileannotations-cancel": "Скасувати",
+	"fileannotations-edit": "Редагувати",
+	"fileannotations-delete": "Вилучити",
+	"fileannotations-commons-see-more": "Переглянути більше зображень",
+	"fileannotations-go-to-filepage": "Рекомендовано переглядати і редагувати анотації файлу на [[:$1|сторінці цього файлу]], де вони доступні у візуальному форматі.",
+	"apihelp-query+fileannotations-description": "Отримати вікірозмітку і, за потреби, HTML для анотацій файлу у вікі.",
+	"apihelp-query+fileannotations-param-parse": "Чи отримувати парсовані анотації. Може зайняти більше часу при роботі з численними, великими, або складними анотаціями."
+}
