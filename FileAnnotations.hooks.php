@@ -36,17 +36,22 @@ class FileAnnotationsHooks {
 				$title->getDBkey()
 			);
 
-			$tabMessage = $sktemplate->msg(
-				'fileannotations-tab'
+			$links['namespaces']['annotations'] = $sktemplate->tabAction(
+				$fatitle,
+				'fileannotations-tab',
+				false,
+				'',
+				true
 			);
-
-			$links['namespaces']['annotations'] = [
-				'class' => '',
-				'text' => $tabMessage->text(),
-				'href' => $sktemplate->makeArticleUrlDetails(
-					$fatitle->getFullText()
-				)['href'],
-			];
 		}
+	}
+
+	public static function getCodeLanguage( Title $title, &$languageCode ) {
+		if ( $title->inNamespace( NS_FILE_ANNOTATIONS ) ) {
+			$languageCode = 'json';
+			return false;
+		}
+
+		return true;
 	}
 }

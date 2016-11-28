@@ -20,8 +20,8 @@
  * @file
  * @ingroup Api
  *
- * @copyright 2015 Mark Holmquist
- * @license GNU General Public License version 2.0
+ * @copyright 2015 Mark Holmquist and others; see AUTHORS.txt
+ * @license GNU General Public License version 2.0; see LICENSE.txt
  */
 use MediaWiki\MediaWikiServices;
 
@@ -164,7 +164,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 	protected function renderWikipediaAnnotation( $wpMatches ) {
 		$articleName = $wpMatches[2];
 		$language = $wpMatches[1];
-		$safeAsOf = $this->getSafeCacheAsOfForUser( 'enwiki' );
+		// Maybe assumes the input is valid...
+		$safeAsOf = $this->getSafeCacheAsOfForUser( $language . 'wiki' );
 
 		$cache = ObjectCache::getMainWANInstance();
 		$cacheKey = $cache->makeKey( 'fileannotations', 'wikipediapage', $language, $articleName );
@@ -413,27 +414,39 @@ class ApiFileAnnotations extends ApiQueryBase {
 		$pages = $imageApiData['query']['pages'];
 		$imageLink = null;
 
-		$page = $pages[0];
-		// There's only one page. Add HTML here.
-		$info = $page['imageinfo'][0];
-		return
-			'<div class="wikidata-image">' .
-				'<a class="commons-image" href="' . htmlspecialchars( $info['descriptionurl'] ) . '">' .
-					'<img src="' . htmlspecialchars( $info['thumburl'] ) . '" />' .
-				'</a>' .
-			'</div>';
+		if ( $pages[0] ) {
+			$page = $pages[0];
+			// There's only one page. Add HTML here.
+			$info = $page['imageinfo'][0];
+			return
+				'<div class="wikidata-image">' .
+					'<a class="commons-image" href="' . htmlspecialchars( $info['descriptionurl'] ) . '">' .
+						'<img src="' . htmlspecialchars( $info['thumburl'] ) . '" />' .
+					'</a>' .
+				'</div>';
+		}
+
+		// Oops, there's no image. Bail.
+		return '';
 	}
 
 	protected function parseAnnotation( $text, $faTitle, Parser $parser, $popts ) {
 		$presult = $parser->parse( $text, $faTitle, $popts );
-		$parsed = $presult->mText;
+		$parsed = $presult->getText();
 
-		// Check to see if we can return a special display for this annotation.
-		// We can't just the $text against the regexes, since the link might be generated from a
-		// wikitext link like [[commons:Foo]] or a template.
-		$dom = new DOMDocument();
 		$oldValue = libxml_disable_entity_loader( true );
-		$dom->loadXML( '<root>' . $presult->mText . '</root>' );
+
+		try {
+			// Check to see if we can return a special display for this annotation.
+			// We can't just the $text against the regexes, since the link might be generated from a
+			// wikitext link like [[commons:Foo]] or a template.
+			$dom = new DOMDocument();
+			$dom->loadXML( '<root>' . $parsed . '</root>' );
+		} catch ( Exception $e ) {
+			// Don't muck around, just load an empty dom
+			$dom->loadXML( '<root></root>' );
+		}
+
 		libxml_disable_entity_loader( $oldValue );
 
 		$xpath = new DOMXPath( $dom );
@@ -449,7 +462,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 			$commonsMatches = [];
 			$commonsCategoryMatch = preg_match(
-				'%^https?://commons\.wikimedia\.org.*(Category:.*)%',
+				'%^https?://commons\.wikimedia\.org/(?:wiki/|w/index.php\?(.*&)?title=)(Category:[^&]*%',
 				$href,
 				$commonsMatches
 			);
