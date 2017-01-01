@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"1233thehongkonger"
+			"1233thehongkonger",
+			"Liuxinyu970226"
 		]
 	},
+	"fileannotations-tab": "註解",
 	"fileannotations-save": "儲存",
 	"fileannotations-cancel": "取消",
 	"fileannotations-edit": "編輯",
