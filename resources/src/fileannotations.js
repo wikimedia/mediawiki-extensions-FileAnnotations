@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 ( function ( $, mw ) {
 	var pageAnnotator,
 		pageTitle = mw.Title.newFromText( mw.config.get( 'wgPageName' ) ),

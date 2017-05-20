@@ -243,6 +243,8 @@
 
 	/**
 	 * Deletes the annotation and saves.
+	 *
+	 * @return {jQuery.Promise}
 	 */
 	FileAnnotation.prototype.deleteAnnotation = function () {
 		var annotation = this;
