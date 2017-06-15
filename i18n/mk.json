@@ -14,5 +14,6 @@
 	"fileannotations-commons-see-more": "Погл. повеќе слики",
 	"fileannotations-go-to-filepage": "Се препорачува да ги читате и уредувате прибелешките на [[:$1|податотечната страница]], каде истите се достапни во нагледен облик.",
 	"apihelp-query+fileannotations-description": "Дај викитекст и, по желба, HTML за прибелешки на податотека на викито.",
+	"apihelp-query+fileannotations-summary": "Дај викитекст и, по желба, HTML за прибелешки на податотека на викито.",
 	"apihelp-query+fileannotations-param-parse": "Дали да се дадат расчленетите прибелешки. Може да потрае подолго кај поголемите и посложените прибелешки."
 }
