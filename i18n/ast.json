@@ -14,5 +14,6 @@
 	"fileannotations-commons-see-more": "Ver más imaxes",
 	"fileannotations-go-to-filepage": "Encaméntase ver y editar les anotaciones de ficheru na [[:$1|páxina del ficheru]], onde tán disponibles nun formatu visual.",
 	"apihelp-query+fileannotations-description": "Llograr el testu wiki y, opcionalmente, HTML de les anotaciones d'un ficheru de la wiki.",
+	"apihelp-query+fileannotations-summary": "Llograr el testu wiki y, opcionalmente, HTML de les anotaciones d'un ficheru de la wiki.",
 	"apihelp-query+fileannotations-param-parse": "Si hai que recibir o non les anotaciones analizaes. Podría tardar más tiempu con anotaciones múltiples, grandes o complexes."
 }
