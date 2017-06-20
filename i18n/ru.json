@@ -1,18 +1,20 @@
 {
 	"@metadata": {
 		"authors": [
-			"Туллук"
+			"Туллук",
+			"Facenapalm"
 		]
 	},
-	"fileannotations-desc": "Отображает и редактирует Примечания на страницах файлов.",
+	"fileannotations-desc": "Отображает и редактирует аннотации на страницах файлов.",
 	"fileannotations-tab": "Аннотация",
-	"fileannotations-create": "Добавить файл аннотации",
+	"fileannotations-create": "Добавить аннотацию файла",
 	"fileannotations-save": "Сохранить",
 	"fileannotations-cancel": "Отмена",
 	"fileannotations-edit": "Править",
 	"fileannotations-delete": "Удалить",
-	"fileannotations-commons-see-more": "Увидеть больше изображений",
-	"fileannotations-go-to-filepage": "Рекомендуется просматривать и редактировать файл заметок на [[:$1|файл подкачки]], где они доступны в визуальном формате.",
-	"apihelp-query+fileannotations-description": "Получить викитекст и дополнительные HTML для аннотирования файла в Вики.",
-	"apihelp-query+fileannotations-param-parse": "Если ли вы хотите получиать проанализированные комментарии, вы можете начать с длинных или сложных текстов"
+	"fileannotations-commons-see-more": "Просмотреть больше изображений",
+	"fileannotations-go-to-filepage": "Рекомендуется просматривать и редактировать аннотации файлов на [[:$1|странице файла]], где они доступны в визуальном формате.",
+	"apihelp-query+fileannotations-description": "Запрос вики-текста и, опционально, HTML аннотации файла в вики.",
+	"apihelp-query+fileannotations-summary": "Запрос вики-текста и, опционально, HTML аннотации файла в вики.",
+	"apihelp-query+fileannotations-param-parse": "Получать ли распарсенные аннотации. Может замедлить процесс на больших или сложных аннотациях, а также при большом их числе."
 }
