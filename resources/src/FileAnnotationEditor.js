@@ -98,9 +98,7 @@
 		this.$editor = $( '<div>' )
 			.addClass( 'annotation-editor' );
 
-		this.textWidget = new OO.ui.TextInputWidget( {
-			multiline: true
-		} );
+		this.textWidget = new OO.ui.MultilineTextInputWidget();
 
 		this.saveButton = new OO.ui.ButtonWidget( {
 			label: mw.message( 'fileannotations-save' ).text(),
