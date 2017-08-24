@@ -2,7 +2,7 @@
 	"@metadata": {
 		"authors": []
 	},
-	"fileannotations-desc": "Displays and edits annotations on file pages.",
+	"fileannotations-desc": "Displays and edits annotations on file pages",
 	"fileannotations-tab": "Annotations",
 	"fileannotations-create": "Add file annotation",
 	"fileannotations-save": "Save",
