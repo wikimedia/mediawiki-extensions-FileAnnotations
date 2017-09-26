@@ -73,7 +73,7 @@
 				createButton = new OO.ui.ButtonWidget( {
 					label: mw.message( 'fileannotations-create' ).text(),
 					icon: 'add',
-					flags: [ 'constructive' ]
+					flags: [ 'progressive' ]
 				} );
 
 				createButton.on( 'click', function () {

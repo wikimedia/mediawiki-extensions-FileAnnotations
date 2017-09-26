@@ -103,7 +103,7 @@
 		this.saveButton = new OO.ui.ButtonWidget( {
 			label: mw.message( 'fileannotations-save' ).text(),
 			icon: 'check',
-			flags: [ 'constructive', 'primary' ]
+			flags: [ 'progressive', 'primary' ]
 		} );
 
 		this.cancelButton = new OO.ui.ButtonWidget( {
