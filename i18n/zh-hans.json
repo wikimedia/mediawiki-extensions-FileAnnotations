@@ -14,5 +14,6 @@
 	"fileannotations-commons-see-more": "查看更多图片",
 	"fileannotations-go-to-filepage": "建议您在[[:$1|文件页面]]查看并编辑文件注释，这可在视觉格式中可用。",
 	"apihelp-query+fileannotations-description": "取得在wiki上某文件注释的wiki文本和可选HTML。",
+	"apihelp-query+fileannotations-summary": "取得在wiki上某文件注释的wiki文本和可选HTML。",
 	"apihelp-query+fileannotations-param-parse": "是否取得解析的注释。对于很多、很大或复杂的注释，这需要很长时间。"
 }
