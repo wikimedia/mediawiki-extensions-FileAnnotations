@@ -418,12 +418,11 @@ class ApiFileAnnotations extends ApiQueryBase {
 			$page = $pages[0];
 			// There's only one page. Add HTML here.
 			$info = $page['imageinfo'][0];
-			return
-				'<div class="wikidata-image">' .
-					'<a class="commons-image" href="' . htmlspecialchars( $info['descriptionurl'] ) . '">' .
-						'<img src="' . htmlspecialchars( $info['thumburl'] ) . '" />' .
-					'</a>' .
-				'</div>';
+			return '<div class="wikidata-image">' .
+				'<a class="commons-image" href="' . htmlspecialchars( $info['descriptionurl'] ) . '">' .
+					'<img src="' . htmlspecialchars( $info['thumburl'] ) . '" />' .
+				'</a>' .
+			'</div>';
 		}
 
 		// Oops, there's no image. Bail.

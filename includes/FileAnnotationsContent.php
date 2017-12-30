@@ -20,11 +20,11 @@
  * Represents file annotations for a file.
  */
 class FileAnnotationsContent extends JsonContent {
-	function __construct( $text ) {
+	public function __construct( $text ) {
 		parent::__construct( $text, 'FileAnnotations' );
 	}
 
-	function validate() {
+	public function validate() {
 		$annotationsStatus = $this->getData();
 		$annotations = $annotationsStatus->getValue();
 
@@ -49,7 +49,7 @@ class FileAnnotationsContent extends JsonContent {
 		return EventLogging::schemaValidate( $arrayAnnotations, $schema );
 	}
 
-	function isValid() {
+	public function isValid() {
 		try {
 			return parent::isValid() && $this->validate();
 		} catch ( JsonSchemaException $e ) {
