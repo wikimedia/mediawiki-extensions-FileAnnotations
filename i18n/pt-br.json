@@ -1,8 +1,20 @@
 {
 	"@metadata": {
 		"authors": [
-			"Felipe L. Ewald"
+			"Felipe L. Ewald",
+			"Eduardo Addad de Oliveira"
 		]
 	},
-	"fileannotations-save": "Salvar"
+	"fileannotations-desc": "Apresenta e edita as anotações em páginas de arquivos.",
+	"fileannotations-tab": "Anotações",
+	"fileannotations-create": "Adicionar anotação ao arquivo",
+	"fileannotations-save": "Salvar",
+	"fileannotations-cancel": "Cancelar",
+	"fileannotations-edit": "Editar",
+	"fileannotations-delete": "Deletar",
+	"fileannotations-commons-see-more": "Ver mais imagens",
+	"fileannotations-go-to-filepage": "É recomendável ver e editar as anotações do arquivo [[:$1|na respetiva página]], onde estão disponíveis num formato visual.",
+	"apihelp-query+fileannotations-description": "Obter o texto wiki e, opcionalmente, o HTML para as anotações de um arquivo da wiki.",
+	"apihelp-query+fileannotations-summary": "Obter o texto wiki e, opcionalmente, o HTML para as anotações de um arquivo da wiki.",
+	"apihelp-query+fileannotations-param-parse": "Obter, ou não, as anotações analisadas. Pode demorar mais tempo se as anotações forem muitas, compridas ou complexas."
 }
