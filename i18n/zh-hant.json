@@ -2,10 +2,13 @@
 	"@metadata": {
 		"authors": [
 			"1233thehongkonger",
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"Kly"
 		]
 	},
+	"fileannotations-desc": "在檔案頁面顯示並編輯註解",
 	"fileannotations-tab": "註解",
+	"fileannotations-create": "添加檔案註解",
 	"fileannotations-save": "儲存",
 	"fileannotations-cancel": "取消",
 	"fileannotations-edit": "編輯",
