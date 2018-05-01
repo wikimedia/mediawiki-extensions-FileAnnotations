@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"ديفيد"
+		]
+	},
+	"fileannotations-desc": "يعرض ويعدل التعليقات التوضيحية في صفحات الملفات",
+	"fileannotations-tab": "الشروح",
+	"fileannotations-create": "إضافة تعليق توضيحي للملف",
+	"fileannotations-save": "حفظ",
+	"fileannotations-cancel": "إلغاء",
+	"fileannotations-edit": "تعديل",
+	"fileannotations-delete": "حذف",
+	"fileannotations-commons-see-more": "شاهد المزيد من الصور",
+	"fileannotations-go-to-filepage": "يُوصَى بعرض وتعديل التعليقات التوضيحية للملفات في [[:$1|صفحة الملف]]، حيث تكون متاحة بصيغة مرئية.",
+	"apihelp-query+fileannotations-description": "جلب نص الويكي وHTML اختياريا للتعليقات التوضيحية في ملف في الويكي.",
+	"apihelp-query+fileannotations-summary": "جلب نص الويكي وHTML اختياريا للتعليقات التوضيحية في ملف في الويكي.",
+	"apihelp-query+fileannotations-param-parse": "ما إذا كان سيتم جلب التعليقات التوضيحية التي تم تحليلها أم لا، قد يستغرق وقتا أطول مع التعليقات التوضيحية العديدة أو الكبيرة أو المعقدة."
+}
