@@ -9,7 +9,7 @@
  * @file
  * @ingroup Extensions
  * @copyright 2015 Mark Holmquist and others; see AUTHORS.txt
- * @license GNU General Public License version 2.0; see LICENSE.txt
+ * @license GPL-2.0-or-later
  */
 
 if ( function_exists( 'wfLoadExtension' ) ) {
