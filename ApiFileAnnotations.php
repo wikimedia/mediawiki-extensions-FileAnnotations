@@ -32,7 +32,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 	const LONG_CACHE_TTL = WANObjectCache::TTL_MONTH;
 
 	public function __construct( $query, $moduleName ) {
-		parent::__construct( $query, $moduleName, 'fa' );
+		parent::__construct( $query, $moduleName, 'fan' );
 	}
 
 	public function execute() {
@@ -47,12 +47,12 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 			foreach ( $titles as $title ) {
 				/** @noinspection PhpUndefinedConstantInspection */
-				$faTitle = Title::makeTitle(
+				$fanTitle = Title::makeTitle(
 					NS_FILE_ANNOTATIONS,
 					$title
 				);
 
-				$page = WikiPage::factory( $faTitle );
+				$page = WikiPage::factory( $fanTitle );
 				$content = $page->getContent();
 				if ( $content instanceof FileAnnotationsContent ) {
 					$dataStatus = $content->getData();
@@ -70,7 +70,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 					foreach ( $annotations as $annotation ) {
 						$annotationsData[] = $this->getAnnotationData(
 							$shouldParse,
-							$faTitle,
+							$fanTitle,
 							$annotation,
 							$parser,
 							$popts
@@ -429,8 +429,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 		return '';
 	}
 
-	protected function parseAnnotation( $text, $faTitle, Parser $parser, $popts ) {
-		$presult = $parser->parse( $text, $faTitle, $popts );
+	protected function parseAnnotation( $text, $fanTitle, Parser $parser, $popts ) {
+		$presult = $parser->parse( $text, $fanTitle, $popts );
 		$parsed = $presult->getText();
 
 		$oldValue = libxml_disable_entity_loader( true );
@@ -502,7 +502,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 		return $parsed;
 	}
 
-	protected function getAnnotationData( $shouldParse, $faTitle, $annotation, $parser, $popts ) {
+	protected function getAnnotationData( $shouldParse, $fanTitle, $annotation, $parser, $popts ) {
 		$text = $annotation->content;
 
 		$annotationData = [
@@ -520,7 +520,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 		if ( $shouldParse ) {
 			$annotationData['parsed'] = $this->parseAnnotation(
 				$text,
-				$faTitle,
+				$fanTitle,
 				$parser,
 				$popts
 			);

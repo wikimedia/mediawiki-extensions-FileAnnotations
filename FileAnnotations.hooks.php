@@ -31,13 +31,13 @@ class FileAnnotationsHooks {
 		// Add the "File annotations" tab on file pages
 		$title = $sktemplate->getTitle();
 		if ( $title->inNamespace( NS_FILE ) ) {
-			$fatitle = Title::makeTitle(
+			$fanTitle = Title::makeTitle(
 				NS_FILE_ANNOTATIONS,
 				$title->getDBkey()
 			);
 
 			$links['namespaces']['annotations'] = $sktemplate->tabAction(
-				$fatitle,
+				$fanTitle,
 				'fileannotations-tab',
 				false,
 				'',
