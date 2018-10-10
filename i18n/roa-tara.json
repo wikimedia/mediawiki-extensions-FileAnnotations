@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Joetaras"
+		]
+	},
+	"fileannotations-tab": "Annotazziune",
+	"fileannotations-create": "Aggiunge 'n'annotazione a 'u file",
+	"fileannotations-save": "Reggìstre",
+	"fileannotations-cancel": "Annulle",
+	"fileannotations-edit": "Cange",
+	"fileannotations-delete": "Scangìlle",
+	"fileannotations-commons-see-more": "'Ndruche cchiù immaggine"
+}

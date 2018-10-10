@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Chrumps"
+			"Chrumps",
+			"Railfail536"
 		]
 	},
+	"fileannotations-desc": "Wyświetla komentarze użytkowników na stronach plików",
 	"fileannotations-tab": "Adnotacje",
 	"fileannotations-create": "Dodaj komentarz do pliku",
 	"fileannotations-save": "Zapisz",
