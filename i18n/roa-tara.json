@@ -11,5 +11,9 @@
 	"fileannotations-cancel": "Annulle",
 	"fileannotations-edit": "Cange",
 	"fileannotations-delete": "Scangìlle",
-	"fileannotations-commons-see-more": "'Ndruche cchiù immaggine"
+	"fileannotations-commons-see-more": "'Ndruche cchiù immaggine",
+	"fileannotations-go-to-filepage": "Se conziglie de fà 'ndrucà e cangià le annotazziune de le file sus 'a [[:$1|pàgene d'u file]], addò stonne disponibbile jndr'à 'nu formate ca se 'ndruche.",
+	"apihelp-query+fileannotations-description": "Recupere 'u uicchiteste e, ce vuem HTML pe le annotazziune jndr'à 'nu file sus 'a uicchi.",
+	"apihelp-query+fileannotations-summary": "Recupere 'u uicchiteste e, ce vuem HTML pe le annotazziune jndr'à 'nu file sus 'a uicchi.",
+	"apihelp-query+fileannotations-param-parse": "Ce recuperà le annotazziune analizzate pò cercà cchià tiembe cu 'nu sbuènne de annotazziune granne o comblicate."
 }
