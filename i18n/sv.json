@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"WikiPhoenix"
+			"WikiPhoenix",
+			"Mjälten"
 		]
 	},
+	"fileannotations-tab": "Anmärkning",
 	"fileannotations-save": "Spara",
 	"fileannotations-cancel": "Avbryt",
 	"fileannotations-edit": "Redigera",
