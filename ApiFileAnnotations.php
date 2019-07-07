@@ -88,7 +88,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 
 		$safeAsOf = $this->getSafeCacheAsOfForUser( 'commonswiki' );
 
-		$cache = ObjectCache::getMainWANInstance();
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		$cacheKey = $cache->makeKey( 'fileannotations', 'commonscategory', $categoryName );
 
 		return $cache->getWithSetCallback(
@@ -167,7 +167,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 		// Maybe assumes the input is valid...
 		$safeAsOf = $this->getSafeCacheAsOfForUser( $language . 'wiki' );
 
-		$cache = ObjectCache::getMainWANInstance();
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		$cacheKey = $cache->makeKey( 'fileannotations', 'wikipediapage', $language, $articleName );
 
 		return $cache->getWithSetCallback(
