@@ -228,7 +228,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 	}
 
 	protected function getWikidataImageProps() {
-		$cache = ObjectCache::getMainWANInstance();
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		$cacheKey = $cache->makeKey( 'fileannotations', 'wikidataimageprops' );
 
 		return $cache->getWithSetCallback(
@@ -277,7 +277,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 		$currentLang = $this->getLanguage()->getCode();
 		$safeAsOf = $this->getSafeCacheAsOfForUser( 'wikidatawiki' );
 
-		$cache = ObjectCache::getMainWANInstance();
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		$cacheKey = $cache->makeKey( 'fileannotations', 'wikidataentity', $currentLang, $entityId );
 
 		return $cache->getWithSetCallback(
