@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Vlad5250"
+		]
+	},
+	"fileannotations-save": "Snimi",
+	"fileannotations-cancel": "Otkaži",
+	"fileannotations-edit": "Uredi",
+	"fileannotations-delete": "Izbriši"
+}
