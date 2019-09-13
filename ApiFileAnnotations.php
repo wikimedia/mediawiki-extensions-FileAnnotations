@@ -565,7 +565,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 	private static function purgeIfOutdated( $safeAsOf, $oldValue, $html, $cache, $cacheKey ) {
 		if ( $safeAsOf && $oldValue !== false && $oldValue !== $html ) {
 			// User possibly expecting to see the new value and it does not match.
-			// Delete the key from all datacenters and yeild the new value.
+			// Delete the key from all datacenters and yield the new value.
 			$cache->delete( $cacheKey );
 
 			return true;
