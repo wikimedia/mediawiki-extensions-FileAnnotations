@@ -1,10 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Pyscowicz"
+			"Pyscowicz",
+			"Silvonen"
 		]
 	},
 	"fileannotations-save": "Tallenna",
 	"fileannotations-cancel": "Peruuta",
-	"fileannotations-edit": "Muokkaa"
+	"fileannotations-edit": "Muokkaa",
+	"fileannotations-delete": "Poista"
 }
