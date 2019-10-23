@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ильнар"
+			"Ильнар",
+			"Ерней"
 		]
 	},
 	"fileannotations-save": "Саклау",
-	"fileannotations-cancel": "Баш тарту",
+	"fileannotations-cancel": "Кире алу",
 	"fileannotations-edit": "Үзгәртү",
 	"fileannotations-delete": "Бетерү"
 }
