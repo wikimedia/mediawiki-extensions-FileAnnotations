@@ -1,8 +1,20 @@
 {
 	"@metadata": {
 		"authors": [
-			"Vito Genovese"
+			"Vito Genovese",
+			"BaRaN6161 TURK"
 		]
 	},
-	"fileannotations-edit": "Düzenle"
+	"fileannotations-desc": "Dosya sayfalarındaki ek açıklamaları görüntüler ve düzenler",
+	"fileannotations-tab": "Ek açıklamalar",
+	"fileannotations-create": "Dosya ek açıklaması ekle",
+	"fileannotations-save": "Kaydet",
+	"fileannotations-cancel": "İptal",
+	"fileannotations-edit": "Düzenle",
+	"fileannotations-delete": "Sil",
+	"fileannotations-commons-see-more": "Daha fazla resim göster",
+	"fileannotations-go-to-filepage": "Görsel açıklamada, [[:$1|dosya sayfasındaki]] dosya ek açıklamalarını görüntülemeniz ve düzenlemeniz önerilir.",
+	"apihelp-query+fileannotations-description": "Wikideki bir dosyadaki açıklamalar için wiki metin ve isteğe bağlı olarak HTML getir.",
+	"apihelp-query+fileannotations-summary": "Wikideki bir dosyadaki açıklamalar için wiki metin ve isteğe bağlı olarak HTML getir.",
+	"apihelp-query+fileannotations-param-parse": "Ayrıştırılmış ek açıklamaları alıp almayacağınız. Çok, büyük veya karmaşık açıklamalarla daha uzun sürebilir."
 }
