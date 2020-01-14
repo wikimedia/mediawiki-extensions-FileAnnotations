@@ -368,15 +368,15 @@ class ApiFileAnnotations extends ApiQueryBase {
 				}
 
 				$html = '<div class="wikidata-entity-annotation">';
-				if ( !is_null( $imageHtml ) ) {
+				if ( $imageHtml !== null ) {
 					$html .= $imageHtml;
 				}
-				if ( !is_null( $label ) || !is_null( $description ) ) {
+				if ( $label !== null || $description !== null ) {
 					$html .= '<div class="text-content">';
-					if ( !is_null( $label ) ) {
+					if ( $label !== null ) {
 						$html .= $label;
 					}
-					if ( !is_null( $description ) ) {
+					if ( $description !== null ) {
 						$html .= $description;
 					}
 				}
@@ -541,7 +541,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 	 * @param string|bool $oldValue
 	 * @param string $newValue
 	 * @param float|null $oldAsOf
-	 * @param integer $ttl Nominal/maximum TTL
+	 * @param int $ttl Nominal/maximum TTL
 	 * @return int
 	 */
 	private static function elasticCacheTTL( $oldValue, $newValue, $oldAsOf, $ttl ) {
