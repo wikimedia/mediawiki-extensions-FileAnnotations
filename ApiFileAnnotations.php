@@ -61,7 +61,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 					$annotations = $data->annotations;
 				}
 
-				$parser = new Parser();
+				$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
 				$popts = ParserOptions::newFromUser( $this->getUser() );
 
 				$annotationsData = [];
