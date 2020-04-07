@@ -1,9 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Туллук",
 			"Facenapalm",
-			"Putnik"
+			"Putnik",
+			"Туллук"
 		]
 	},
 	"fileannotations-desc": "Отображает и редактирует аннотации на страницах файлов",
