@@ -83,6 +83,10 @@ class ApiFileAnnotations extends ApiQueryBase {
 		}
 	}
 
+	protected function getMultiClient() {
+		return MediaWikiServices::getInstance()->getHttpRequestFactory()->createMultiClient();
+	}
+
 	protected function renderCommonsAnnotation( $commonsMatches ) {
 		$categoryName = $commonsMatches[1];
 
@@ -96,7 +100,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 			self::MAX_CACHE_TTL,
 			function ( $oldValue, &$ttl, array &$setOpts, $oldAsOf )
 			use ( $cache, $categoryName, $cacheKey, $safeAsOf ) {
-				$client = new MultiHttpClient( [] );
+				$client = $this->getMultiClient();
 
 				$response = $client->run( [
 					'method' => 'GET',
@@ -175,7 +179,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 			self::MAX_CACHE_TTL,
 			function ( $oldValue, &$ttl, array &$setOpts, $oldAsOf )
 			use ( $cache, $articleName, $language, $cacheKey, $safeAsOf ) {
-				$client = new MultiHttpClient( [] );
+				$client = $this->getMultiClient();
 
 				$response = $client->run( [
 					'method' => 'GET',
@@ -236,7 +240,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 			self::LONG_CACHE_TTL,
 			function ( $oldValue, &$ttl, array &$setOpts, $oldAsOf )
 			use ( $cache ) {
-				$client = new MultiHttpClient( [] );
+				$client = $this->getMultiClient();
 
 				$response = $client->run( [
 					'method' => 'GET',
@@ -285,7 +289,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 			self::MAX_CACHE_TTL,
 			function ( $oldValue, &$ttl, array &$setOpts, $oldAsOf )
 			use ( $cache, $entityId, $currentLang, $safeAsOf, $cacheKey ) {
-				$client = new MultiHttpClient( [] );
+				$client = $this->getMultiClient();
 
 				$response = $client->run( [
 					'method' => 'GET',
@@ -392,7 +396,7 @@ class ApiFileAnnotations extends ApiQueryBase {
 	}
 
 	protected function renderWdImage( $imageTitle ) {
-		$client = new MultiHttpClient( [] );
+		$client = $this->getMultiClient();
 
 		$response = $client->run( [
 			'method' => 'GET',
