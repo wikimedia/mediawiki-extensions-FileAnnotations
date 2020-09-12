@@ -2,7 +2,6 @@
 
 module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( 'grunt-eslint' );
-	grunt.loadNpmTasks( 'grunt-jsonlint' );
 	grunt.loadNpmTasks( 'grunt-banana-checker' );
 
 	grunt.initConfig( {
@@ -12,21 +11,17 @@ module.exports = function ( grunt ) {
 			},
 			all: [
 				'*.js',
-				'resources/**/*.js'
-			]
-		},
-		banana: {
-			all: 'i18n/'
-		},
-		jsonlint: {
-			all: [
+				'resources/**/*.js',
 				'**/*.json',
 				'!node_modules/**',
 				'!vendor/**'
 			]
+		},
+		banana: {
+			all: 'i18n/'
 		}
 	} );
 
-	grunt.registerTask( 'test', [ 'eslint', 'jsonlint', 'banana' ] );
+	grunt.registerTask( 'test', [ 'eslint', 'banana' ] );
 	grunt.registerTask( 'default', 'test' );
 };
