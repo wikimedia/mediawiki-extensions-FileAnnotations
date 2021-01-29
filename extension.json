@@ -8,7 +8,7 @@
 	"descriptionmsg": "fileannotations-desc",
 	"license-name": "GPL-3.0-only",
 	"type": "other",
-	"requires" : {
+	"requires": {
 		"MediaWiki": ">= 1.34.0"
 	},
 	"namespaces": [
