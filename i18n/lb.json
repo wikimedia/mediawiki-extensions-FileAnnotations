@@ -1,12 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
+			"Les Meloures",
 			"Robby"
 		]
 	},
 	"fileannotations-desc": "Weist an ännert Bemierkungen op Fichierssäiten.",
 	"fileannotations-tab": "Notizen",
-	"fileannotations-create": "Eng Bemierkung bei de Fichier dobäisetzen",
+	"fileannotations-create": "Eng Bemierkung bei de Fichier derbäisetzen",
 	"fileannotations-save": "Späicheren",
 	"fileannotations-cancel": "Ofbriechen",
 	"fileannotations-edit": "Änneren",
