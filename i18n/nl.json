@@ -1,9 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mainframe98"
+			"Mainframe98",
+			"Romaine"
 		]
 	},
+	"fileannotations-tab": "Annotaties",
+	"fileannotations-create": "Voeg bestandsannotatie toe",
 	"fileannotations-save": "Opslaan",
 	"fileannotations-cancel": "Annuleren",
 	"fileannotations-edit": "Bewerken",
