@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Jakeukalane",
 			"Macofe"
 		]
 	},
@@ -13,6 +14,6 @@
 	"fileannotations-delete": "Borrar",
 	"fileannotations-commons-see-more": "Ver más imágenes",
 	"fileannotations-go-to-filepage": "Se recomienda ver y editar anotaciones de archivo en [[:$1|la página de archivo]], donde están disponibles en un formato visual.",
-	"apihelp-query+fileannotations-description": "Obtener wikitexto y, opcionalmente, HTML para las anotaciones en un archivo en el wiki.",
+	"apihelp-query+fileannotations-description": "Obtener wikitexto y, opcionalmente, HTML para las anotaciones en un archivo en la wiki.",
 	"apihelp-query+fileannotations-param-parse": "Obtener o no las anotaciones analizadas. Podría tomar más tiempo con anotaciones múltiples, grandes o complejas."
 }
