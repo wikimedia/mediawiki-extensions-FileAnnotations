@@ -16,6 +16,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+use MediaWiki\Extension\EventLogging\EventLogging;
+
 /**
  * Represents file annotations for a file.
  */
