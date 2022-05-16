@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
+			"Amire80",
 			"Ex-Diktator"
 		]
 	},
 	"fileannotations-cancel": "ביטול",
+	"fileannotations-edit": "עריכה",
 	"fileannotations-delete": "מחיקה"
 }
