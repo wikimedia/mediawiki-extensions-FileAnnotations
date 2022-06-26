@@ -45,6 +45,12 @@ class ApiFileAnnotations extends ApiQueryBase {
 			$titles = array_keys( $pageIds[NS_FILE] );
 			asort( $titles ); // Ensure the order is always the same
 
+			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+				// MW 1.36+
+				$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
+			} else {
+				$wikiPageFactory = null;
+			}
 			foreach ( $titles as $title ) {
 				/** @noinspection PhpUndefinedConstantInspection */
 				$fanTitle = Title::makeTitle(
@@ -52,7 +58,12 @@ class ApiFileAnnotations extends ApiQueryBase {
 					$title
 				);
 
-				$page = WikiPage::factory( $fanTitle );
+				if ( $wikiPageFactory !== null ) {
+					// MW 1.36+
+					$page = $wikiPageFactory->newFromTitle( $fanTitle );
+				} else {
+					$page = WikiPage::factory( $fanTitle );
+				}
 				$content = $page->getContent();
 				if ( $content instanceof FileAnnotationsContent ) {
 					$dataStatus = $content->getData();
