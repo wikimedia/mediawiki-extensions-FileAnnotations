@@ -5,7 +5,16 @@
 			"Amire80"
 		]
 	},
+	"fileannotations-desc": "הצגה ועריכה של הערות בדפי קבצים",
+	"fileannotations-tab": "הערות",
+	"fileannotations-create": "הוספת הערת קובץ",
+	"fileannotations-save": "שמירה",
 	"fileannotations-cancel": "ביטול",
 	"fileannotations-edit": "עריכה",
-	"fileannotations-delete": "מחיקה"
+	"fileannotations-delete": "מחיקה",
+	"fileannotations-commons-see-more": "לראות עוד תמונות",
+	"fileannotations-go-to-filepage": "מומלץ להציג ולערוך הערות לקבצים ב־[[:$1|דף הקובץ]], שם הם זמינים בעיצוב חזותי.",
+	"apihelp-query+fileannotations-description": "אחזור קוד ויקי ו־HTML (רשות) להערות על קובץ בוויקי.",
+	"apihelp-query+fileannotations-summary": "אחזור קוד ויקי ו־HTML (רשות) להערות על קובץ בוויקי.",
+	"apihelp-query+fileannotations-param-parse": "האם לשלוף את ההערות המפוענחות. זה עשוי להימשך יותר זמן עם הערות רבות, גדולות, או מורכבות."
 }
