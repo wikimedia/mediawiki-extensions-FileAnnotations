@@ -4,9 +4,16 @@
 			"Eleassar"
 		]
 	},
+	"fileannotations-desc": "Prikaz in urejanje označitev na straneh datotek",
 	"fileannotations-tab": "Oznake",
+	"fileannotations-create": "Dodaj označitev datoteke",
 	"fileannotations-save": "Shrani",
 	"fileannotations-cancel": "Prekliči",
 	"fileannotations-edit": "Uredi",
-	"fileannotations-delete": "Izbriši"
+	"fileannotations-delete": "Izbriši",
+	"fileannotations-commons-see-more": "Ogled več slik",
+	"fileannotations-go-to-filepage": "Priporočljivo je, da si ogledate in urejate označitve datoteke na [[:$1|strani datoteke]], kjer so na voljo v vizualni obliki.",
+	"apihelp-query+fileannotations-description": "Pridobi vikibesedilo in po izbiri HTML za označitve na datoteki v vikiju.",
+	"apihelp-query+fileannotations-summary": "Pridobi vikibesedilo in po izbiri HTML za označivtve na datoteki v vikiju.",
+	"apihelp-query+fileannotations-param-parse": "Ali naj se pridobijo razčlenjene označitve. Pri številnih, velikih ali kompleksnih označitvah lahko traja dlje."
 }
