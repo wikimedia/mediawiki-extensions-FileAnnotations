@@ -448,7 +448,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 		$presult = $parser->parse( $text, $fanTitle, $popts );
 		$parsed = $presult->getText();
 
-		$oldValue = libxml_disable_entity_loader( true );
+		// phpcs:ignore Generic.PHP.NoSilencedErrors -- suppress deprecation per T268847
+		$oldValue = @libxml_disable_entity_loader( true );
 
 		try {
 			// Check to see if we can return a special display for this annotation.
@@ -461,7 +462,8 @@ class ApiFileAnnotations extends ApiQueryBase {
 			$dom->loadXML( '<root></root>' );
 		}
 
-		libxml_disable_entity_loader( $oldValue );
+		// phpcs:ignore Generic.PHP.NoSilencedErrors
+		@libxml_disable_entity_loader( $oldValue );
 
 		$xpath = new DOMXPath( $dom );
 		// If the output is just a single link `<a>` wrapped in a single paragraph `<p>`, optionally
