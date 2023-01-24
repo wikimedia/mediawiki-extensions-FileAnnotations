@@ -3,6 +3,7 @@
 		"authors": [
 			"BaRaN6161 TURK",
 			"MuratTheTurkish",
+			"Rapsar",
 			"Vito Genovese"
 		]
 	},
@@ -11,7 +12,7 @@
 	"fileannotations-create": "Dosya ek açıklaması ekle",
 	"fileannotations-save": "Kaydet",
 	"fileannotations-cancel": "İptal",
-	"fileannotations-edit": "Düzenle",
+	"fileannotations-edit": "Değiştir",
 	"fileannotations-delete": "Sil",
 	"fileannotations-commons-see-more": "Daha fazla resim göster",
 	"fileannotations-go-to-filepage": "Dosya ek açıklamalarını görsel biçiminde mevcut oldukları [[:$1|dosya sayfası]] üzerinde görüntülemeniz ve düzenlemeniz önerilir.",
