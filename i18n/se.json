@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
+			"Kimberli Mäkäräinen (WMNO)",
 			"Yupik"
 		]
 	},
 	"fileannotations-save": "Vurke",
+	"fileannotations-cancel": "Šluhtte",
 	"fileannotations-delete": "Sihko"
 }
