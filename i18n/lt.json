@@ -12,5 +12,8 @@
 	"fileannotations-cancel": "Atšaukti",
 	"fileannotations-edit": "Redaguoti",
 	"fileannotations-delete": "Ištrinti",
-	"fileannotations-commons-see-more": "Peržiūrėti daugiau paveikslėlių"
+	"fileannotations-commons-see-more": "Peržiūrėti daugiau paveikslėlių",
+	"fileannotations-go-to-filepage": "Failų komentarus rekomenduojama peržiūrėti ir redaguoti [[:$1|failo puslapyje]], kur jie galimi vaizdiniu formatu.",
+	"apihelp-query+fileannotations-description": "Gauti failo viki vikitekstą ir, pasirinktinai, anotacijų HTML.",
+	"apihelp-query+fileannotations-summary": "Gauti failo viki vikitekstą ir, pasirinktinai, anotacijų HTML."
 }
