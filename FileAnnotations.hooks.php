@@ -30,7 +30,7 @@ class FileAnnotationsHooks {
 	public static function onSkinTemplateNavigation( SkinTemplate &$sktemplate, array &$links ) {
 		// Add the "File annotations" tab on file pages
 		$title = $sktemplate->getTitle();
-		if ( $title->inNamespace( NS_FILE ) ) {
+		if ( $title->canExist() && $title->inNamespace( NS_FILE ) ) {
 			$fanTitle = Title::makeTitle(
 				NS_FILE_ANNOTATIONS,
 				$title->getDBkey()

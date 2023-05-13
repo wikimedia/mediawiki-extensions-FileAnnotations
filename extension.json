@@ -9,7 +9,7 @@
 	"license-name": "GPL-3.0-only",
 	"type": "other",
 	"requires": {
-		"MediaWiki": ">= 1.34.0"
+		"MediaWiki": ">= 1.35.0"
 	},
 	"namespaces": [
 		{
@@ -39,7 +39,7 @@
 	},
 	"Hooks": {
 		"BeforePageDisplay": "FileAnnotationsHooks::onBeforePageDisplay",
-		"SkinTemplateNavigation": "FileAnnotationsHooks::onSkinTemplateNavigation",
+		"SkinTemplateNavigation::Universal": "FileAnnotationsHooks::onSkinTemplateNavigation",
 		"CodeEditorGetPageLanguage": "FileAnnotationsHooks::getCodeLanguage"
 	},
 	"ResourceModules": {
