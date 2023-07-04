@@ -14,7 +14,6 @@
 	"fileannotations-delete": "Löschen",
 	"fileannotations-commons-see-more": "Weitere Bilder ansehen",
 	"fileannotations-go-to-filepage": "Es wird empfohlen, dass du Dateianmerkungen auf [[:$1|der Dateibeschreibungsseite]] ansiehst und bearbeitest, wo sie in einem visuellen Format verfügbar sind.",
-	"apihelp-query+fileannotations-description": "Ruft Wikitext und optional HTML für Anmerkungen zu einer Datei auf dem Wiki ab.",
 	"apihelp-query+fileannotations-summary": "Ruft Wikitext und optional HTML für Anmerkungen zu einer Datei auf dem Wiki ab.",
 	"apihelp-query+fileannotations-param-parse": "Ob die geparsten Anmerkungen abgerufen werden sollen. Kann mit vielen, langen oder komplexen Anmerkungen länger dauern."
 }

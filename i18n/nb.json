@@ -13,7 +13,6 @@
 	"fileannotations-delete": "Slett",
 	"fileannotations-commons-see-more": "Se flere bilder",
 	"fileannotations-go-to-filepage": "Det anbefales at du viser og redigerer filmerknader på [[:$1|filsiden]], der de er tilgjengelige i et visuelt format.",
-	"apihelp-query+fileannotations-description": "Hent wikitekst og HTML (valgfritt) for merknadene til en fil på wikien.",
 	"apihelp-query+fileannotations-summary": "Hent wikitekst og HTML (valgfritt) for merknadene til en fil på wikien.",
 	"apihelp-query+fileannotations-param-parse": "Hvorvidt parsede merknader skal hentes. Kan ta lenger tid med mange, store eller komplekse merknader."
 }

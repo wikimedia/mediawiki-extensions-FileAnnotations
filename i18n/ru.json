@@ -15,7 +15,6 @@
 	"fileannotations-delete": "Удалить",
 	"fileannotations-commons-see-more": "Просмотреть больше изображений",
 	"fileannotations-go-to-filepage": "Рекомендуется просматривать и редактировать аннотации файлов на [[:$1|странице файла]], где они доступны в визуальном формате.",
-	"apihelp-query+fileannotations-description": "Получить вики-текст и, опционально, HTML-аннотацию к файлу в вики.",
 	"apihelp-query+fileannotations-summary": "Запрос вики-текста и, опционально, HTML аннотации файла в вики.",
 	"apihelp-query+fileannotations-param-parse": "Получать ли распарсенные аннотации. Может замедлить процесс на больших или сложных аннотациях, а также при большом их числе."
 }

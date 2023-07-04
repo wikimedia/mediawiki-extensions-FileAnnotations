@@ -16,7 +16,6 @@
 	"fileannotations-delete": "Supprimer",
 	"fileannotations-commons-see-more": "Voir plus d’images",
 	"fileannotations-go-to-filepage": "Il est recommandé de consulter et modifier les annotations de fichier sur [[:$1|la page du fichier]], où elles sont disponibles dans un format visuel.",
-	"apihelp-query+fileannotations-description": "Récupérer le wikicode et, éventuellement, le HTML pour les annotations sur un fichier du wiki.",
 	"apihelp-query+fileannotations-summary": "Récupérer le wikicode et, de façon facultative, le HTML pour les annotations sur un fichier du wiki.",
 	"apihelp-query+fileannotations-param-parse": "S’il faut récupérer les annotations analysées. Peut prendre plus de temps avec des annotations nombreuses, volumineuses ou complexes."
 }

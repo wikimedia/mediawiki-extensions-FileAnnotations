@@ -13,7 +13,6 @@
 	"fileannotations-delete": "Deler",
 	"fileannotations-commons-see-more": "Vider plus imagines",
 	"fileannotations-go-to-filepage": "Es recommendate que tu consulta e modifica le annotationes de un file sur [[:$1|le pagina del file]] ubi illos es disponibile in un formato visual.",
-	"apihelp-query+fileannotations-description": "Obtener wikitexto e, optionalmente, HTML pro annotationes sur un file sur le wiki.",
 	"apihelp-query+fileannotations-summary": "Obtener wikitexto e, optionalmente, HTML pro annotationes sur un file sur le wiki.",
 	"apihelp-query+fileannotations-param-parse": "Indica si obtener le annotationes processate. Pote prender plus tempore con annotationes numerose, grande o complexe."
 }

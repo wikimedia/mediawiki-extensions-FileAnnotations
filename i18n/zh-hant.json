@@ -17,7 +17,6 @@
 	"fileannotations-delete": "刪除",
 	"fileannotations-commons-see-more": "查看更多圖片",
 	"fileannotations-go-to-filepage": "建議您在[[:$1|檔案頁面]]來檢視與編輯註解，以上可用於視覺化格式。",
-	"apihelp-query+fileannotations-description": "索取 wiki 上的檔案中用於註解的 wikitext 與可選 HTML。",
 	"apihelp-query+fileannotations-summary": "索取 wiki 上的檔案中用於註解的 wikitext 與可選 HTML。",
 	"apihelp-query+fileannotations-param-parse": "是否索取經解析後的註解。這在較多、較大，或是複雜的註解下需要較多處理時間。"
 }

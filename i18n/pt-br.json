@@ -15,7 +15,6 @@
 	"fileannotations-delete": "Deletar",
 	"fileannotations-commons-see-more": "Ver mais imagens",
 	"fileannotations-go-to-filepage": "É recomendável ver e editar as anotações do arquivo [[:$1|na respetiva página]], onde estão disponíveis num formato visual.",
-	"apihelp-query+fileannotations-description": "Obter o texto wiki e, opcionalmente, o HTML para as anotações de um arquivo da wiki.",
 	"apihelp-query+fileannotations-summary": "Obter o texto wiki e, opcionalmente, o HTML para as anotações de um arquivo da wiki.",
 	"apihelp-query+fileannotations-param-parse": "Obter, ou não, as anotações analisadas. Pode demorar mais tempo se as anotações forem muitas, compridas ou complexas."
 }
