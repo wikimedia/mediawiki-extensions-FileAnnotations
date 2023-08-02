@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Winston Sung"
+		]
+	},
+	"fileannotations-desc": "Prikazuje i uređuje pribilješke na stranicama za datoteke.",
+	"fileannotations-tab": "Pribilješke",
+	"fileannotations-create": "Dodaj pribilješku",
+	"fileannotations-save": "Sačuvaj",
+	"fileannotations-cancel": "Otkaži",
+	"fileannotations-edit": "Uredi",
+	"fileannotations-delete": "Izbriši"
+}
