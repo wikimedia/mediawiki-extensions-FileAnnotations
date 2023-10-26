@@ -1,14 +1,15 @@
 {
 	"@metadata": {
 		"authors": [
-			"Xuacu"
+			"Xuacu",
+			"YoaR"
 		]
 	},
 	"fileannotations-desc": "Amuesa y edita les anotaciones nes páxines de ficheru",
 	"fileannotations-tab": "Anotaciones",
 	"fileannotations-create": "Añadir anotación de ficheru",
 	"fileannotations-save": "Guardar",
-	"fileannotations-cancel": "Encaboxar",
+	"fileannotations-cancel": "Zarrar",
 	"fileannotations-edit": "Editar",
 	"fileannotations-delete": "Desaniciar",
 	"fileannotations-commons-see-more": "Ver más imaxes",
