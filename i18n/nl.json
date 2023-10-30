@@ -2,14 +2,19 @@
 	"@metadata": {
 		"authors": [
 			"Mainframe98",
+			"McDutchie",
 			"Romaine"
 		]
 	},
+	"fileannotations-desc": "Toont en bewerkt annotaties op bestandspagina’s",
 	"fileannotations-tab": "Annotaties",
 	"fileannotations-create": "Voeg bestandsannotatie toe",
 	"fileannotations-save": "Opslaan",
 	"fileannotations-cancel": "Annuleren",
 	"fileannotations-edit": "Bewerken",
 	"fileannotations-delete": "Verwijderen",
-	"fileannotations-commons-see-more": "Meer afbeeldingen bekijken"
+	"fileannotations-commons-see-more": "Meer afbeeldingen bekijken",
+	"fileannotations-go-to-filepage": "Het wordt aanbevolen dat u bestandsannotaties bekijkt en bewerkt op [[:$1|de bestandspagina]], waar u ze in een visuele opmaak kunt zien.",
+	"apihelp-query+fileannotations-summary": "Wikitekst en eventueel HTML ophalen voor annotaties in een bestand op de wiki.",
+	"apihelp-query+fileannotations-param-parse": "Of de verwerkte annotaties moeten worden opgehaald. Kan langer duren bij veel, grote of complexe annotaties."
 }
