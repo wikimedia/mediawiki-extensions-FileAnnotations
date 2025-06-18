@@ -3,8 +3,19 @@
 		"authors": [
 			"Af420",
 			"Amjad Khan",
-			"Baloch Khan"
+			"Baloch Khan",
+			"شاه زمان پټان"
 		]
 	},
-	"fileannotations-edit": "سمول"
+	"fileannotations-desc": "د دوتنې مخونو کې يادښتونه ښکاره‌کوي او سموي",
+	"fileannotations-tab": "يادښتونه",
+	"fileannotations-create": "د دوتنې يادښت ورگډول",
+	"fileannotations-save": "خوندي‌کول",
+	"fileannotations-cancel": "ناگارل",
+	"fileannotations-edit": "سمول",
+	"fileannotations-delete": "ړنگول",
+	"fileannotations-commons-see-more": "نور انځورونه وگورئ",
+	"fileannotations-go-to-filepage": "سپارښتنه کېږي چې تاسو د دوتنې يادښت د [[:$1|دوتنې مخ]] کې وگورئ او سم کړئ؛ چېرې چې دوی په ليدنيزه بڼه د لاسرسي وړ دي.",
+	"apihelp-query+fileannotations-summary": "د ويکي په يوه دوتنه کې د يادښت لپاره ويکي‌ليک او په اختياري ډول اېچ‌ټي‌اېم‌‌اېل راوړئ.",
+	"apihelp-query+fileannotations-param-parse": "که تجزيه شوي يادښتونه راوړل شي. د ډېرو، لويو يا پېچلو يادښتونو سره به ډېر وخت ونيسي."
 }
