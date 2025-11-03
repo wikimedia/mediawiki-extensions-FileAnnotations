@@ -21,6 +21,8 @@
  * @ingroup Extensions
  */
 
+use MediaWiki\Title\Title;
+
 class FileAnnotationsHooks {
 	public static function onBeforePageDisplay( &$out, &$skin ) {
 		// Dump it on every page.

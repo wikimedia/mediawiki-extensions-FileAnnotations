@@ -24,6 +24,7 @@
  * @license GPL-2.0-or-later
  */
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 class ApiFileAnnotations extends ApiQueryBase {
 	const MIN_CACHE_TTL = WANObjectCache::TTL_MINUTE;

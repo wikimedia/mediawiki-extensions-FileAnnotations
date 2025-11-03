@@ -17,6 +17,7 @@
  */
 
 use MediaWiki\Extension\EventLogging\EventLogging;
+use MediaWiki\Title\Title;
 
 /**
  * Represents file annotations for a file.

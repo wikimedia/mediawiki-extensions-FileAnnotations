@@ -9,6 +9,8 @@
  * @author Mark Holmquist <marktraceur@gmail.com>
  */
 
+use MediaWiki\Title\Title;
+
 class FileAnnotationsContentHandler extends JsonContentHandler {
 
 	public function __construct( $modelId = 'FileAnnotations' ) {
