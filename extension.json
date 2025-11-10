@@ -9,7 +9,7 @@
 	"license-name": "GPL-3.0-only",
 	"type": "other",
 	"requires": {
-		"MediaWiki": ">= 1.39.4"
+		"MediaWiki": ">= 1.41.0"
 	},
 	"namespaces": [
 		{
@@ -108,7 +108,7 @@
 		"FileAnnotationsContentHandler": "includes/FileAnnotationsContentHandler.php"
 	},
 	"ConfigRegistry": {
-		"fileannotations": "GlobalVarConfig::newInstance"
+		"fileannotations": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
 	},
 	"manifest_version": 1
 }
